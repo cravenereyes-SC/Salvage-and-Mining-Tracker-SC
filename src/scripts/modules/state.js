@@ -5,6 +5,7 @@ export function createInitialState() {
     loadedAt: new Date(),
     defaultTheme: "rsi",
     selectedTheme: "rsi",
+    customThemeActive: false,
     visualSettings: {
       glowStrength: 0.7,
       scanlineStrength: 0.08

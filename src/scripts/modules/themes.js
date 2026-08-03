@@ -1,5 +1,6 @@
 const THEME_STORAGE_KEY = "sc-tracker-theme";
 const VISUAL_SETTINGS_STORAGE_KEY = "sc-tracker-visual-settings";
+const CUSTOM_THEME_ACTIVE_STORAGE_KEY = "sc-tracker-custom-theme-active";
 
 const visualSettingBounds = {
   glowStrength: { min: 0, max: 1 },
@@ -8,8 +9,50 @@ const visualSettingBounds = {
 
 const defaultVisualSettings = {
   glowStrength: 0.7,
-  scanlineStrength: 0.08
+  scanlineStrength: 0.08,
+  accentColor: "#56d6ff",
+  backgroundColor: "#14293d"
 };
+
+function sanitizeHexColor(colorValue) {
+  return /^#[0-9a-fA-F]{6}$/.test(colorValue || "")
+    ? colorValue.toLowerCase()
+    : defaultVisualSettings.accentColor;
+}
+
+function hexToRgbString(hexColor) {
+  const cleanHex = hexColor.replace("#", "");
+  const r = parseInt(cleanHex.slice(0, 2), 16);
+  const g = parseInt(cleanHex.slice(2, 4), 16);
+  const b = parseInt(cleanHex.slice(4, 6), 16);
+  return `${r} ${g} ${b}`;
+}
+
+function hexToRgbObject(hexColor) {
+  const cleanHex = hexColor.replace("#", "");
+  return {
+    r: parseInt(cleanHex.slice(0, 2), 16),
+    g: parseInt(cleanHex.slice(2, 4), 16),
+    b: parseInt(cleanHex.slice(4, 6), 16)
+  };
+}
+
+function toHex(value) {
+  return value.toString(16).padStart(2, "0");
+}
+
+function rgbObjectToHex(rgb) {
+  return `#${toHex(rgb.r)}${toHex(rgb.g)}${toHex(rgb.b)}`;
+}
+
+function mixRgb(baseRgb, targetRgb, amount) {
+  const clampedAmount = clamp(amount, 0, 1);
+  return {
+    r: Math.round(baseRgb.r + (targetRgb.r - baseRgb.r) * clampedAmount),
+    g: Math.round(baseRgb.g + (targetRgb.g - baseRgb.g) * clampedAmount),
+    b: Math.round(baseRgb.b + (targetRgb.b - baseRgb.b) * clampedAmount)
+  };
+}
 
 export const manufacturerThemes = [
   {
@@ -109,7 +152,9 @@ function sanitizeVisualSettings(rawSettings) {
       : defaultVisualSettings.glowStrength,
     scanlineStrength: Number.isFinite(scanlineValue)
       ? clamp(scanlineValue, visualSettingBounds.scanlineStrength.min, visualSettingBounds.scanlineStrength.max)
-      : defaultVisualSettings.scanlineStrength
+      : defaultVisualSettings.scanlineStrength,
+    accentColor: sanitizeHexColor(rawSettings?.accentColor),
+    backgroundColor: sanitizeHexColor(rawSettings?.backgroundColor)
   };
 }
 
@@ -121,6 +166,14 @@ export function getSavedThemeId(defaultThemeId) {
   }
 
   return defaultThemeId;
+}
+
+export function getSavedCustomThemeActive() {
+  return localStorage.getItem(CUSTOM_THEME_ACTIVE_STORAGE_KEY) === "true";
+}
+
+export function saveCustomThemeActive(isActive) {
+  localStorage.setItem(CUSTOM_THEME_ACTIVE_STORAGE_KEY, String(Boolean(isActive)));
 }
 
 export function getThemeByIdOrDefault(themeId, defaultThemeId) {
@@ -160,9 +213,41 @@ export function saveVisualSettings(settings) {
 
 export function applyVisualSettings(settings) {
   const sanitized = sanitizeVisualSettings(settings);
+  const backgroundBaseRgb = hexToRgbObject(sanitized.backgroundColor);
+  const bgDeepHex = rgbObjectToHex(mixRgb(backgroundBaseRgb, { r: 0, g: 0, b: 0 }, 0.7));
+  const bgMidHex = rgbObjectToHex(mixRgb(backgroundBaseRgb, { r: 0, g: 0, b: 0 }, 0.42));
+  const bgHighHex = rgbObjectToHex(mixRgb(backgroundBaseRgb, { r: 255, g: 255, b: 255 }, 0.06));
+  const accentRgb = hexToRgbString(sanitized.accentColor);
+
   document.body.style.setProperty("--glow-strength", sanitized.glowStrength.toFixed(2));
   document.body.style.setProperty("--scanline-strength", sanitized.scanlineStrength.toFixed(2));
+  document.body.style.setProperty("--bg-deep", bgDeepHex);
+  document.body.style.setProperty("--bg-mid", bgMidHex);
+  document.body.style.setProperty("--bg-high", bgHighHex);
+  document.body.style.setProperty("--accent", sanitized.accentColor);
+  document.body.style.setProperty("--accent-rgb", accentRgb);
+  document.body.style.setProperty("--grid-rgb", accentRgb);
+  document.body.style.setProperty("--border", `rgb(${accentRgb} / 0.38)`);
+  document.body.style.setProperty("--accent-soft", `rgb(${accentRgb} / 0.2)`);
+
   return sanitized;
+}
+
+export function clearCustomVisualSettings() {
+  [
+    "--glow-strength",
+    "--scanline-strength",
+    "--bg-deep",
+    "--bg-mid",
+    "--bg-high",
+    "--accent",
+    "--accent-rgb",
+    "--grid-rgb",
+    "--border",
+    "--accent-soft"
+  ].forEach((name) => {
+    document.body.style.removeProperty(name);
+  });
 }
 
 export function populateThemeSelector(selectEl, selectedThemeId) {

@@ -28,6 +28,7 @@
               <label class="theme-label" for="theme-select">Ship Manufacturer</label>
               <select id="theme-select" name="theme-select"></select>
               <p class="theme-description" id="theme-description">Select a manufacturer visual style.</p>
+              <button class="hud-settings-trigger theme-apply-button" id="apply-theme" type="button">Apply Theme</button>
             </section>
           </div>
         </div>
@@ -75,9 +76,17 @@
         <input id="scanline-strength" name="scanline-strength" type="range" min="0" max="0.25" step="0.01" value="0.08" />
         <p class="theme-description" id="scanline-strength-value">0.08</p>
 
+        <label class="theme-label" for="accent-color">Accent Color</label>
+        <input id="accent-color" name="accent-color" type="color" value="#56d6ff" />
+        <p class="theme-description" id="accent-color-value">#56d6ff</p>
+
+        <label class="theme-label" for="background-color">Background Palette</label>
+        <input id="background-color" name="background-color" type="color" value="#14293d" />
+        <p class="theme-description" id="background-color-value">#14293d</p>
+
         <div class="modal-actions">
           <button class="hud-settings-trigger" id="reset-settings" type="button">Reset</button>
-          <button class="hud-settings-trigger" type="submit">Close</button>
+          <button class="hud-settings-trigger" type="submit">Apply & Exit</button>
         </div>
       </form>
     </dialog>

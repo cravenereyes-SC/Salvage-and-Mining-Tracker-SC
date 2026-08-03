@@ -22,10 +22,14 @@ export function renderAppStatus(state) {
   }
 
   const selectedTheme = getThemeByIdOrDefault(state.selectedTheme, state.defaultTheme);
-  const selectedThemeName = selectedTheme ? selectedTheme.name : "Unknown";
+  const selectedThemeName = state.customThemeActive
+    ? `Custom (${selectedTheme.name})`
+    : (selectedTheme ? selectedTheme.name : "Unknown");
 
   appStatusEl.textContent = `${state.status} Active theme: ${selectedThemeName}.`;
-  themeDescriptionEl.textContent = getThemeDescription(state.selectedTheme);
+  themeDescriptionEl.textContent = state.customThemeActive
+    ? "Custom theme colors active. Pick a manufacturer to return to preset palettes."
+    : getThemeDescription(state.selectedTheme);
   buildInfoEl.textContent = `${state.appName} | ${selectedThemeName} HUD | ${state.loadedAt.toLocaleString()}`;
 
   selectedTheme.hudMetrics.forEach((metric, index) => {
