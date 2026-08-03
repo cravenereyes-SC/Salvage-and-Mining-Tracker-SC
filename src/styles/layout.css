@@ -26,14 +26,41 @@
   margin-top: var(--space-1);
 }
 
+.main-shell {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  align-items: start;
+  padding-bottom: var(--space-2);
+}
+
 .site-footer {
   padding-bottom: var(--space-3);
   color: var(--muted);
+  text-align: right;
+}
+
+.app-version {
+  position: fixed;
+  left: 0.8rem;
+  bottom: 0.6rem;
+  z-index: 6;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  padding: 0.28rem 0.45rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--surface-strong) 85%, transparent);
 }
 
 @media (max-width: 780px) {
   .header-top {
     align-items: center;
+  }
+
+  .main-shell {
+    grid-template-columns: 1fr;
   }
 
   .theme-menu-wrap {

@@ -58,6 +58,100 @@
   line-height: 1.25;
 }
 
+.pilot-section {
+  margin-bottom: 0;
+  padding: 0.85rem;
+}
+
+.pilot-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.55rem;
+}
+
+.pilot-head h2 {
+  margin-bottom: 0;
+}
+
+.ships-section {
+  margin-bottom: 0;
+  padding: 0.85rem;
+}
+
+.ships-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.55rem;
+}
+
+.ships-head h2 {
+  margin-bottom: 0;
+}
+
+.ships-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.ship-item {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.42rem 0.55rem;
+  font-size: 0.86rem;
+  color: var(--text);
+  background: color-mix(in srgb, var(--surface-strong) 88%, transparent);
+}
+
+.pilot-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.pilot-item {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem;
+  background: color-mix(in srgb, var(--surface-strong) 88%, transparent);
+}
+
+.pilot-label {
+  color: var(--muted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.pilot-value {
+  margin-top: 0.2rem;
+  color: var(--text);
+  font-size: 0.88rem;
+}
+
+.pilot-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.6rem;
+}
+
+.pilot-tag {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent-soft) 55%, transparent);
+}
+
 .theme-dropdown {
   position: absolute;
   top: calc(100% + 0.45rem);
@@ -125,6 +219,23 @@
   color: var(--text);
 }
 
+.modal-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.modal-title-row h2 {
+  margin: 0;
+}
+
+.modal-close-btn {
+  padding: 0.35rem 0.6rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+
 .hud-settings-form input[type="range"] {
   accent-color: var(--accent);
 }
@@ -137,6 +248,113 @@
   background: color-mix(in srgb, var(--surface-strong) 82%, transparent);
   padding: 0.1rem;
   cursor: pointer;
+}
+
+.hud-settings-form input[type="text"] {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--surface-strong) 82%, transparent);
+  color: var(--text);
+  padding: 0.45rem 0.55rem;
+}
+
+.hud-settings-form textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--surface-strong) 82%, transparent);
+  color: var(--text);
+  padding: 0.45rem 0.55rem;
+  resize: vertical;
+}
+
+.pilot-settings-modal {
+  width: min(92vw, 420px);
+}
+
+.hangar-settings-modal {
+  width: min(92vw, 420px);
+}
+
+.purchase-ship-modal {
+  width: min(92vw, 400px);
+}
+
+.hangar-ships-list {
+  display: grid;
+  gap: 0.55rem;
+  max-height: 45vh;
+  overflow: auto;
+}
+
+.hangar-ship-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.55rem;
+  padding-bottom: 2rem;
+  background: color-mix(in srgb, var(--surface-strong) 88%, transparent);
+  position: relative;
+}
+
+.hangar-ship-name {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--text);
+}
+
+.hangar-ship-meta {
+  margin: 0.2rem 0 0.5rem;
+  color: var(--muted);
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+}
+
+.remove-ship-btn {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.45rem;
+  width: 1.45rem;
+  height: 1.45rem;
+  border-radius: 999px;
+  border: 1px solid rgb(255 88 88 / 0.85);
+  background: rgb(120 14 14 / 0.65);
+  color: #ffd6d6;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  line-height: 1;
+}
+
+.remove-ship-btn:hover,
+.remove-ship-btn:focus-visible {
+  border-color: #ff7d7d;
+  background: rgb(158 21 21 / 0.78);
+}
+
+.remove-ship-btn svg {
+  width: 0.8rem;
+  height: 0.8rem;
+}
+
+.remove-ship-btn .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.hangar-empty {
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 0.55rem;
+  color: var(--muted);
+  font-size: 0.78rem;
 }
 
 .hud-settings-form .hud-settings-trigger {
@@ -152,6 +370,10 @@
 }
 
 @media (max-width: 640px) {
+  .pilot-grid {
+    grid-template-columns: 1fr;
+  }
+
   .theme-dropdown {
     right: -0.25rem;
   }

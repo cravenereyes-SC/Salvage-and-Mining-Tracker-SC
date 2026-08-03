@@ -40,6 +40,105 @@
       </div>
     </header>
 
+    <main class="container main-shell">
+      <section class="card pilot-section" aria-label="Pilot profile">
+        <div class="pilot-head">
+          <h2>Pilot</h2>
+          <button class="hud-settings-trigger" id="edit-pilot-btn" type="button">Edit Pilot</button>
+        </div>
+
+        <div class="pilot-grid">
+          <article class="pilot-item">
+            <p class="pilot-label">Callsign</p>
+            <p class="pilot-value" id="pilot-callsign">CPT-AURORA</p>
+          </article>
+          <article class="pilot-item">
+            <p class="pilot-label">Organization</p>
+            <p class="pilot-value" id="pilot-organization">Independent Contractor</p>
+          </article>
+          <article class="pilot-item">
+            <p class="pilot-label">Primary Ship</p>
+            <p class="pilot-value" id="pilot-ship">Drake Vulture</p>
+          </article>
+          <article class="pilot-item">
+            <p class="pilot-label">Home System</p>
+            <p class="pilot-value" id="pilot-system">Stanton</p>
+          </article>
+        </div>
+
+        <div class="pilot-tags" id="pilot-tags" aria-label="Pilot specialties">
+          <span class="pilot-tag">No specialties set</span>
+        </div>
+      </section>
+
+      <section class="card ships-section" aria-label="Owned ships">
+        <div class="ships-head">
+          <h2>Owned Ships</h2>
+          <button class="hud-settings-trigger" id="edit-hangar-btn" type="button">Edit Hanger</button>
+        </div>
+
+        <ul class="ships-list" id="owned-ships-list" aria-live="polite">
+          <li class="ship-item">No ships added</li>
+        </ul>
+      </section>
+    </main>
+
+    <dialog class="hud-settings-modal pilot-settings-modal" id="pilot-settings-dialog" aria-labelledby="pilot-settings-title">
+      <form class="hud-settings-form" id="pilot-settings-form">
+        <h2 id="pilot-settings-title">Pilot Settings</h2>
+
+        <label class="theme-label" for="pilot-callsign-input">Callsign</label>
+        <input id="pilot-callsign-input" name="pilot-callsign-input" type="text" maxlength="40" />
+
+        <label class="theme-label" for="pilot-organization-input">Organization</label>
+        <input id="pilot-organization-input" name="pilot-organization-input" type="text" maxlength="60" />
+
+        <label class="theme-label" for="pilot-ship-input">Primary Ship</label>
+        <input id="pilot-ship-input" name="pilot-ship-input" type="text" maxlength="60" />
+
+        <label class="theme-label" for="pilot-system-input">Home System</label>
+        <input id="pilot-system-input" name="pilot-system-input" type="text" maxlength="40" />
+
+        <label class="theme-label" for="pilot-specialties-input">Specialties (comma separated)</label>
+        <input id="pilot-specialties-input" name="pilot-specialties-input" type="text" maxlength="180" />
+
+        <div class="modal-actions">
+          <button class="hud-settings-trigger" id="cancel-pilot-settings" type="button">Cancel</button>
+          <button class="hud-settings-trigger" id="save-pilot-settings" type="submit">Save & Exit</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="hud-settings-modal hangar-settings-modal" id="hangar-settings-dialog" aria-labelledby="hangar-settings-title">
+      <form class="hud-settings-form" id="hangar-settings-form">
+        <div class="modal-title-row">
+          <h2 id="hangar-settings-title">Owned Ships</h2>
+          <button class="hud-settings-trigger modal-close-btn" id="close-hangar-settings" type="button" aria-label="Close Owned Ships">Close</button>
+        </div>
+
+        <div class="hangar-ships-list" id="hangar-ships-list" aria-live="polite"></div>
+
+        <div class="modal-actions">
+          <button class="hud-settings-trigger" id="open-purchase-ship" type="button">Purchase Ship</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="hud-settings-modal purchase-ship-modal" id="purchase-ship-dialog" aria-labelledby="purchase-ship-title">
+      <form class="hud-settings-form" id="purchase-ship-form">
+        <h2 id="purchase-ship-title">Purchase Ship</h2>
+
+        <label class="theme-label" for="purchase-ship-select">Select Ship</label>
+        <select id="purchase-ship-select" name="purchase-ship-select"></select>
+        <p class="theme-description" id="purchase-ship-help">Choose a ship, then click Purchase.</p>
+
+        <div class="modal-actions">
+          <button class="hud-settings-trigger" id="cancel-purchase-ship" type="button">Cancel</button>
+          <button class="hud-settings-trigger" id="confirm-purchase-ship" type="submit">Purchase</button>
+        </div>
+      </form>
+    </dialog>
+
     <dialog class="hud-settings-modal" id="settings-dialog" aria-labelledby="settings-title">
       <form method="dialog" class="hud-settings-form" id="hud-settings-form">
         <h2 id="settings-title">Custom Theme</h2>
@@ -68,6 +167,7 @@
     </dialog>
 
     <footer class="site-footer container">
+      <small class="app-version" id="app-version">Version loading...</small>
       <small id="build-info">Starter skeleton</small>
     </footer>
 
