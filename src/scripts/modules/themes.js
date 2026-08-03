@@ -179,6 +179,12 @@ export function populateThemeSelector(selectEl, selectedThemeId) {
     option.selected = theme.id === selectedThemeId;
     selectEl.append(option);
   });
+
+  const customOption = document.createElement("option");
+  customOption.value = "custom";
+  customOption.textContent = "Custom";
+  customOption.selected = false;
+  selectEl.append(customOption);
 }
 
 export function getThemeDescription(themeId) {

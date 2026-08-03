@@ -13,19 +13,23 @@
   <body>
     <header class="site-header">
       <div class="container">
-        <div class="header-grid">
+        <div class="header-top">
           <div>
             <h1>Star Citizen Tracker</h1>
             <p class="subtitle">Mining and salvage planner</p>
           </div>
 
-          <section class="theme-panel card" aria-label="Theme customization">
-            <h2 class="theme-title">HUD Theme</h2>
-            <label class="theme-label" for="theme-select">Ship Manufacturer</label>
-            <select id="theme-select" name="theme-select"></select>
-            <p class="theme-description" id="theme-description">Select a manufacturer visual style.</p>
-            <button class="hud-settings-trigger" id="open-settings" type="button">Visual Tuning</button>
-          </section>
+          <div class="theme-menu-wrap">
+            <button id="theme-gear-button" class="theme-gear-button" type="button" aria-label="Change Theme" title="Change Theme">
+              <img src="public/assets/icons/gear.svg" alt="Change Theme" width="20" height="20" />
+            </button>
+
+            <section class="theme-dropdown card" id="theme-dropdown" hidden aria-label="Theme customization">
+              <label class="theme-label" for="theme-select">Ship Manufacturer</label>
+              <select id="theme-select" name="theme-select"></select>
+              <p class="theme-description" id="theme-description">Select a manufacturer visual style.</p>
+            </section>
+          </div>
         </div>
       </div>
     </header>
@@ -61,7 +65,7 @@
 
     <dialog class="hud-settings-modal" id="settings-dialog" aria-labelledby="settings-title">
       <form method="dialog" class="hud-settings-form" id="hud-settings-form">
-        <h2 id="settings-title">HUD Visual Tuning</h2>
+        <h2 id="settings-title">Custom Theme</h2>
 
         <label class="theme-label" for="glow-strength">Glow Intensity</label>
         <input id="glow-strength" name="glow-strength" type="range" min="0" max="1" step="0.05" value="0.7" />

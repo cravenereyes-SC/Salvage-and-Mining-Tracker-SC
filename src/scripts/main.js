@@ -13,9 +13,10 @@ import {
 
 const state = createInitialState();
 
+const gearButtonEl = document.querySelector("#theme-gear-button");
+const themeDropdownEl = document.querySelector("#theme-dropdown");
 const themeSelectEl = document.querySelector("#theme-select");
 const settingsDialogEl = document.querySelector("#settings-dialog");
-const openSettingsBtnEl = document.querySelector("#open-settings");
 const resetSettingsBtnEl = document.querySelector("#reset-settings");
 const glowRangeEl = document.querySelector("#glow-strength");
 const scanlineRangeEl = document.querySelector("#scanline-strength");
@@ -55,20 +56,65 @@ function syncControlsFromState() {
 
 syncControlsFromState();
 
+function closeThemeDropdown() {
+	if (themeDropdownEl) {
+		themeDropdownEl.hidden = true;
+	}
+}
+
+function openThemeDropdown() {
+	if (themeDropdownEl) {
+		themeDropdownEl.hidden = false;
+	}
+}
+
+if (gearButtonEl && themeDropdownEl) {
+	gearButtonEl.addEventListener("click", () => {
+		if (themeDropdownEl.hidden) {
+			openThemeDropdown();
+			return;
+		}
+
+		closeThemeDropdown();
+	});
+}
+
+document.addEventListener("click", (event) => {
+	if (!themeDropdownEl || themeDropdownEl.hidden) {
+		return;
+	}
+
+	const isInsideDropdown = themeDropdownEl.contains(event.target);
+	const isGearButton = gearButtonEl ? gearButtonEl.contains(event.target) : false;
+
+	if (!isInsideDropdown && !isGearButton) {
+		closeThemeDropdown();
+	}
+});
+
+document.addEventListener("keydown", (event) => {
+	if (event.key === "Escape") {
+		closeThemeDropdown();
+	}
+});
+
 if (themeSelectEl) {
 	themeSelectEl.addEventListener("change", (event) => {
 		const nextTheme = event.target.value;
+
+		if (nextTheme === "custom") {
+			event.target.value = state.selectedTheme;
+			syncControlsFromState();
+			if (settingsDialogEl) {
+				settingsDialogEl.showModal();
+			}
+			return;
+		}
+
 		state.selectedTheme = nextTheme;
 		applyTheme(nextTheme);
 		saveThemeId(nextTheme);
 		renderAppStatus(state);
-	});
-}
-
-if (openSettingsBtnEl && settingsDialogEl) {
-	openSettingsBtnEl.addEventListener("click", () => {
-		syncControlsFromState();
-		settingsDialogEl.showModal();
 	});
 }
 

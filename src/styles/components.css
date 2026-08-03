@@ -24,12 +24,32 @@
   pointer-events: none;
 }
 
-.theme-panel {
-  border-left: 4px solid var(--accent);
+.theme-gear-button {
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-strong) 85%, transparent);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  padding: 0;
 }
 
-.theme-title {
-  margin-bottom: var(--space-1);
+.theme-gear-button:hover,
+.theme-gear-button:focus-visible {
+  border-color: var(--accent);
+  box-shadow: 0 0 calc(0.25rem + 0.75rem * var(--glow-strength)) rgb(var(--accent-rgb) / 0.6);
+}
+
+.theme-dropdown {
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  right: 0;
+  width: min(84vw, 250px);
+  z-index: 5;
+  border-top: 2px solid var(--accent);
+  padding: 0.8rem;
 }
 
 .theme-label {
@@ -42,11 +62,10 @@
 .theme-description {
   margin-top: 0.7rem;
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .hud-settings-trigger {
-  margin-top: var(--space-2);
   border: 1px solid var(--border);
   background: color-mix(in srgb, var(--surface-strong) 82%, transparent);
   color: var(--text);
@@ -87,23 +106,39 @@
 }
 
 .hud-settings-modal {
-  width: min(92vw, 420px);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--surface-strong);
-  color: var(--text);
+  width: min(90vw, 340px);
+  border: 1px solid rgb(198 186 148 / 0.8);
+  border-radius: 6px;
+  background: linear-gradient(180deg, #f2e9cf 0%, #e9ddbf 100%);
+  color: #2f2a1d;
   box-shadow: var(--shadow);
   padding: 0;
 }
 
 .hud-settings-modal::backdrop {
-  background: rgb(2 6 12 / 0.72);
+  background: rgb(2 6 12 / 0.64);
 }
 
 .hud-settings-form {
   display: grid;
-  gap: 0.65rem;
-  padding: var(--space-3);
+  gap: 0.55rem;
+  padding: 0.95rem;
+}
+
+.hud-settings-form .theme-label,
+.hud-settings-form .theme-description,
+.hud-settings-form h2 {
+  color: #3b3221;
+}
+
+.hud-settings-form input[type="range"] {
+  accent-color: #8b6f2e;
+}
+
+.hud-settings-form .hud-settings-trigger {
+  color: #2f2a1d;
+  border-color: rgb(139 111 46 / 0.65);
+  background: rgb(255 250 237 / 0.82);
 }
 
 .modal-actions {
@@ -115,5 +150,9 @@
 @media (max-width: 640px) {
   .hud-grid {
     grid-template-columns: 1fr;
+  }
+
+  .theme-dropdown {
+    right: -0.25rem;
   }
 }
