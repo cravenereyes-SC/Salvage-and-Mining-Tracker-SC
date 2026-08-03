@@ -54,6 +54,21 @@
   background: color-mix(in srgb, var(--surface-strong) 85%, transparent);
 }
 
+#build-info {
+  position: fixed;
+  right: 0.8rem;
+  bottom: 0.6rem;
+  z-index: 6;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  padding: 0.28rem 0.45rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--surface-strong) 85%, transparent);
+  text-align: right;
+}
+
 @media (max-width: 780px) {
   .header-top {
     align-items: center;
