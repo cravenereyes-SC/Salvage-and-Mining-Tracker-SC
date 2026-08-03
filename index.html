@@ -20,6 +20,11 @@
           </div>
 
           <div class="theme-menu-wrap">
+            <section class="app-status-mini card" aria-live="polite">
+              <h2>Status</h2>
+              <p id="app-status">Loading app...</p>
+            </section>
+
             <button id="theme-gear-button" class="theme-gear-button" type="button" aria-label="Change Theme" title="Change Theme">
               <img src="public/assets/icons/gear.svg" alt="Change Theme" width="20" height="20" />
             </button>
@@ -34,35 +39,6 @@
         </div>
       </div>
     </header>
-
-    <main class="container">
-      <section class="card" aria-live="polite">
-        <h2>App Status</h2>
-        <p id="app-status">Loading app...</p>
-      </section>
-
-      <section class="card hud-preview" aria-live="polite">
-        <h2>HUD Preview</h2>
-        <div class="hud-grid">
-          <article class="hud-tile">
-            <p class="hud-kicker" id="hud-kicker-1">Cargo Integrity</p>
-            <p class="hud-value" id="hud-value-1">97.4%</p>
-          </article>
-          <article class="hud-tile">
-            <p class="hud-kicker" id="hud-kicker-2">Salvage Yield</p>
-            <p class="hud-value" id="hud-value-2">14.2 SCU/min</p>
-          </article>
-          <article class="hud-tile">
-            <p class="hud-kicker" id="hud-kicker-3">Mining Laser Heat</p>
-            <p class="hud-value" id="hud-value-3">43%</p>
-          </article>
-          <article class="hud-tile">
-            <p class="hud-kicker" id="hud-kicker-4">Quantum Fuel Reserve</p>
-            <p class="hud-value" id="hud-value-4">61%</p>
-          </article>
-        </div>
-      </section>
-    </main>
 
     <dialog class="hud-settings-modal" id="settings-dialog" aria-labelledby="settings-title">
       <form method="dialog" class="hud-settings-form" id="hud-settings-form">

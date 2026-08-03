@@ -42,6 +42,22 @@
   box-shadow: 0 0 calc(0.25rem + 0.75rem * var(--glow-strength)) rgb(var(--accent-rgb) / 0.6);
 }
 
+.app-status-mini {
+  padding: 0.45rem 0.65rem;
+  min-width: 220px;
+}
+
+.app-status-mini h2 {
+  font-size: 0.65rem;
+  margin-bottom: 0.2rem;
+  color: var(--muted);
+}
+
+.app-status-mini p {
+  font-size: 0.78rem;
+  line-height: 1.25;
+}
+
 .theme-dropdown {
   position: absolute;
   top: calc(100% + 0.45rem);
@@ -81,33 +97,6 @@
 
 .hud-settings-trigger:hover {
   border-color: var(--accent);
-}
-
-.hud-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-2);
-}
-
-.hud-tile {
-  border: 1px solid var(--border);
-  background: color-mix(in srgb, var(--surface-strong) 90%, transparent);
-  border-radius: 8px;
-  padding: 0.8rem;
-}
-
-.hud-kicker {
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-size: 0.75rem;
-}
-
-.hud-value {
-  color: var(--accent);
-  text-shadow: 0 0 calc(0.25rem + 0.8rem * var(--glow-strength)) rgb(var(--accent-rgb) / 0.68);
-  font-size: clamp(1.1rem, 2.4vw, 1.5rem);
-  font-weight: 600;
 }
 
 .hud-settings-modal {
@@ -163,11 +152,11 @@
 }
 
 @media (max-width: 640px) {
-  .hud-grid {
-    grid-template-columns: 1fr;
-  }
-
   .theme-dropdown {
     right: -0.25rem;
+  }
+
+  .app-status-mini {
+    min-width: 180px;
   }
 }

@@ -16,17 +16,14 @@
 
 .theme-menu-wrap {
   position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
 }
 
 .subtitle {
   color: var(--muted);
   margin-top: var(--space-1);
-}
-
-main {
-  display: grid;
-  gap: var(--space-3);
-  padding-bottom: var(--space-4);
 }
 
 .site-footer {
