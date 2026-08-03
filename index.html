@@ -73,6 +73,17 @@
         </div>
       </section>
 
+      <section class="card ships-section" aria-label="Hangar">
+        <div class="ships-head">
+          <h2>Hangar</h2>
+          <button class="hud-settings-trigger" id="edit-hangar-btn" type="button">Edit Hangar</button>
+        </div>
+
+        <ul class="ships-list" id="owned-ships-list" aria-live="polite">
+          <li class="ship-item">No ships added</li>
+        </ul>
+      </section>
+
       <section class="card session-section" aria-label="Active session">
         <div class="session-head">
           <h2>Session</h2>
@@ -102,17 +113,25 @@
           <p class="session-label">Notes</p>
           <p class="session-value" id="session-notes">No notes added yet.</p>
         </div>
-      </section>
 
-      <section class="card ships-section" aria-label="Hangar">
-        <div class="ships-head">
-          <h2>Hangar</h2>
-          <button class="hud-settings-trigger" id="edit-hangar-btn" type="button">Edit Hangar</button>
+        <div class="session-history" aria-label="Session history">
+          <p class="session-label">Session Ledger</p>
+
+          <div class="session-history-group">
+            <h3>Open</h3>
+            <ul class="session-history-list" id="session-history-open"></ul>
+          </div>
+
+          <div class="session-history-group">
+            <h3>Closed</h3>
+            <ul class="session-history-list" id="session-history-closed"></ul>
+          </div>
+
+          <div class="session-history-group">
+            <h3>Failed</h3>
+            <ul class="session-history-list" id="session-history-failed"></ul>
+          </div>
         </div>
-
-        <ul class="ships-list" id="owned-ships-list" aria-live="polite">
-          <li class="ship-item">No ships added</li>
-        </ul>
       </section>
     </main>
 
@@ -157,6 +176,12 @@
 
         <label class="theme-label" for="session-notes-input">Notes</label>
         <textarea id="session-notes-input" name="session-notes-input" rows="4" maxlength="220"></textarea>
+
+        <label class="theme-label" for="session-income-input">Income Categories (one per line: Name: Amount)</label>
+        <textarea id="session-income-input" name="session-income-input" rows="4" maxlength="400" placeholder="Cargo Sale: 8600"></textarea>
+
+        <label class="theme-label" for="session-cost-input">Cost Categories (one per line: Name: Amount)</label>
+        <textarea id="session-cost-input" name="session-cost-input" rows="4" maxlength="400" placeholder="Fuel: 1200"></textarea>
 
         <div class="modal-actions">
           <button class="hud-settings-trigger" id="cancel-session-settings" type="button">Cancel</button>
