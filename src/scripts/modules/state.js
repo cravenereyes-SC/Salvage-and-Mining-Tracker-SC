@@ -2,6 +2,12 @@ export function createInitialState() {
   return {
     appName: "Star Citizen Mining and Salvage Tracker",
     status: "Skeleton loaded successfully",
-    loadedAt: new Date()
+    loadedAt: new Date(),
+    defaultTheme: "rsi",
+    selectedTheme: "rsi",
+    visualSettings: {
+      glowStrength: 0.7,
+      scanlineStrength: 0.08
+    }
   };
 }

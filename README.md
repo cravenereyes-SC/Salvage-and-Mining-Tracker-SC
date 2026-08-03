@@ -25,6 +25,33 @@ Then open:
 
 http://localhost:5500
 
+## Manufacturer HUD Themes
+
+The app includes a Star Citizen-inspired theme system you can switch from the HUD Theme panel in the header.
+
+Available manufacturer themes:
+
+- RSI
+- Drake Interplanetary
+- Origin Jumpworks
+- Aegis Dynamics
+- Anvil Aerospace
+- Crusader Industries
+- MISC
+
+Theme preference is saved automatically in your browser for the next launch.
+
+Each manufacturer now includes its own HUD metric labels/values in the preview tiles for a more authentic cockpit flavor.
+
+## HUD Visual Tuning Modal
+
+Use the Visual Tuning button in the theme panel to open settings and adjust:
+
+- Glow Intensity
+- Scanline Strength
+
+Changes apply live and are saved automatically per browser.
+
 ## One-click launch (tabless app window)
 
 Double-click launch-app.cmd to:

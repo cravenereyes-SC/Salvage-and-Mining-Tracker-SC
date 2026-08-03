@@ -5,13 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Star Citizen Tracker</title>
     <meta name="description" content="Starter web app skeleton for the Star Citizen Mining and Salvage Tracker." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="src/styles/main.css" />
   </head>
   <body>
     <header class="site-header">
       <div class="container">
-        <h1>Star Citizen Tracker</h1>
-        <p class="subtitle">Mining and salvage planner</p>
+        <div class="header-grid">
+          <div>
+            <h1>Star Citizen Tracker</h1>
+            <p class="subtitle">Mining and salvage planner</p>
+          </div>
+
+          <section class="theme-panel card" aria-label="Theme customization">
+            <h2 class="theme-title">HUD Theme</h2>
+            <label class="theme-label" for="theme-select">Ship Manufacturer</label>
+            <select id="theme-select" name="theme-select"></select>
+            <p class="theme-description" id="theme-description">Select a manufacturer visual style.</p>
+            <button class="hud-settings-trigger" id="open-settings" type="button">Visual Tuning</button>
+          </section>
+        </div>
       </div>
     </header>
 
@@ -20,7 +35,48 @@
         <h2>App Status</h2>
         <p id="app-status">Loading app...</p>
       </section>
+
+      <section class="card hud-preview" aria-live="polite">
+        <h2>HUD Preview</h2>
+        <div class="hud-grid">
+          <article class="hud-tile">
+            <p class="hud-kicker" id="hud-kicker-1">Cargo Integrity</p>
+            <p class="hud-value" id="hud-value-1">97.4%</p>
+          </article>
+          <article class="hud-tile">
+            <p class="hud-kicker" id="hud-kicker-2">Salvage Yield</p>
+            <p class="hud-value" id="hud-value-2">14.2 SCU/min</p>
+          </article>
+          <article class="hud-tile">
+            <p class="hud-kicker" id="hud-kicker-3">Mining Laser Heat</p>
+            <p class="hud-value" id="hud-value-3">43%</p>
+          </article>
+          <article class="hud-tile">
+            <p class="hud-kicker" id="hud-kicker-4">Quantum Fuel Reserve</p>
+            <p class="hud-value" id="hud-value-4">61%</p>
+          </article>
+        </div>
+      </section>
     </main>
+
+    <dialog class="hud-settings-modal" id="settings-dialog" aria-labelledby="settings-title">
+      <form method="dialog" class="hud-settings-form" id="hud-settings-form">
+        <h2 id="settings-title">HUD Visual Tuning</h2>
+
+        <label class="theme-label" for="glow-strength">Glow Intensity</label>
+        <input id="glow-strength" name="glow-strength" type="range" min="0" max="1" step="0.05" value="0.7" />
+        <p class="theme-description" id="glow-strength-value">0.70</p>
+
+        <label class="theme-label" for="scanline-strength">Scanline Strength</label>
+        <input id="scanline-strength" name="scanline-strength" type="range" min="0" max="0.25" step="0.01" value="0.08" />
+        <p class="theme-description" id="scanline-strength-value">0.08</p>
+
+        <div class="modal-actions">
+          <button class="hud-settings-trigger" id="reset-settings" type="button">Reset</button>
+          <button class="hud-settings-trigger" type="submit">Close</button>
+        </div>
+      </form>
+    </dialog>
 
     <footer class="site-footer container">
       <small id="build-info">Starter skeleton</small>

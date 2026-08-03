@@ -7,16 +7,35 @@
   padding: var(--space-4) 0 var(--space-3);
 }
 
+.header-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: var(--space-3);
+  align-items: start;
+}
+
 .subtitle {
   color: var(--muted);
   margin-top: var(--space-1);
 }
 
 main {
+  display: grid;
+  gap: var(--space-3);
   padding-bottom: var(--space-4);
 }
 
 .site-footer {
   padding-bottom: var(--space-3);
   color: var(--muted);
+}
+
+@media (max-width: 780px) {
+  .header-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .theme-panel {
+    width: 100%;
+  }
 }

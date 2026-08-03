@@ -9,10 +9,26 @@ body {
 }
 
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  font-family: "Rajdhani", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background:
+    radial-gradient(circle at 20% 0%, color-mix(in srgb, var(--accent) 17%, transparent), transparent 40%),
+    linear-gradient(165deg, var(--bg-deep) 0%, var(--bg-mid) 48%, var(--bg-high) 100%);
   color: var(--text);
   line-height: 1.5;
+  min-height: 100vh;
+  letter-spacing: 0.015em;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgb(var(--grid-rgb) / var(--scanline-strength)) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--grid-rgb) / var(--scanline-strength)) 1px, transparent 1px);
+  background-size: 46px 46px;
+  pointer-events: none;
+  z-index: -1;
 }
 
 h1,
@@ -20,4 +36,51 @@ h2,
 h3,
 p {
   margin: 0;
+}
+
+h1,
+h2,
+h3,
+label,
+select,
+button {
+  font-family: "Orbitron", "Rajdhani", "Segoe UI", sans-serif;
+}
+
+h1,
+h2 {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+h1 {
+  font-size: clamp(1.35rem, 3vw, 2rem);
+}
+
+h2 {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+}
+
+select {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface-strong);
+  color: var(--text);
+  padding: 0.6rem 0.7rem;
+  outline: none;
+}
+
+select:focus-visible {
+  border-color: var(--accent);
+  box-shadow: 0 0 calc(0.25rem + 0.75rem * var(--glow-strength)) rgb(var(--accent-rgb) / 0.6);
+}
+
+button,
+input[type="range"] {
+  accent-color: var(--accent);
+}
+
+input[type="range"] {
+  width: 100%;
 }
