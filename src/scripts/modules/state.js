@@ -33,6 +33,13 @@ export function createInitialState() {
         size: "Small"
       }
     ],
+    sessionProfile: {
+      status: "Active Patrol",
+      focus: "Salvage Ops",
+      route: "Stanton - Lagrange",
+      notes: "Refuel, verify cargo, and check the latest salvage intel.",
+      lastUpdated: "2026-08-03"
+    },
     visualSettings: {
       glowStrength: 0.7,
       scanlineStrength: 0.08

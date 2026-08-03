@@ -18,6 +18,7 @@ import {
 
 const PILOT_STORAGE_KEY = "sc-tracker-pilot-profile";
 const HANGAR_STORAGE_KEY = "sc-tracker-owned-ships";
+const SESSION_STORAGE_KEY = "sc-tracker-session-profile";
 
 const state = createInitialState();
 
@@ -25,6 +26,7 @@ const gearButtonEl = document.querySelector("#theme-gear-button");
 const themeDropdownEl = document.querySelector("#theme-dropdown");
 const themeSelectEl = document.querySelector("#theme-select");
 const applyThemeBtnEl = document.querySelector("#apply-theme");
+const customizeThemeBtnEl = document.querySelector("#customize-theme");
 const themeDescriptionEl = document.querySelector("#theme-description");
 const settingsDialogEl = document.querySelector("#settings-dialog");
 const resetSettingsBtnEl = document.querySelector("#reset-settings");
@@ -51,6 +53,19 @@ const pilotShipInputEl = document.querySelector("#pilot-ship-input");
 const pilotSystemInputEl = document.querySelector("#pilot-system-input");
 const pilotSpecialtiesInputEl = document.querySelector("#pilot-specialties-input");
 const ownedShipsListEl = document.querySelector("#owned-ships-list");
+const sessionStatusEl = document.querySelector("#session-status");
+const sessionFocusEl = document.querySelector("#session-focus");
+const sessionRouteEl = document.querySelector("#session-route");
+const sessionLastUpdatedEl = document.querySelector("#session-last-updated");
+const sessionNotesEl = document.querySelector("#session-notes");
+const editSessionBtnEl = document.querySelector("#edit-session-btn");
+const sessionSettingsDialogEl = document.querySelector("#session-settings-dialog");
+const sessionSettingsFormEl = document.querySelector("#session-settings-form");
+const cancelSessionSettingsBtnEl = document.querySelector("#cancel-session-settings");
+const sessionStatusInputEl = document.querySelector("#session-status-input");
+const sessionFocusInputEl = document.querySelector("#session-focus-input");
+const sessionRouteInputEl = document.querySelector("#session-route-input");
+const sessionNotesInputEl = document.querySelector("#session-notes-input");
 const editHangarBtnEl = document.querySelector("#edit-hangar-btn");
 const hangarSettingsDialogEl = document.querySelector("#hangar-settings-dialog");
 const hangarSettingsFormEl = document.querySelector("#hangar-settings-form");
@@ -204,6 +219,52 @@ function renderPilotProfile() {
 	});
 }
 
+function sanitizeSessionProfile(rawProfile, fallbackProfile) {
+	const safeFallback = fallbackProfile || state.sessionProfile;
+
+	return {
+		status: String(rawProfile?.status || safeFallback.status || "Active").trim(),
+		focus: String(rawProfile?.focus || safeFallback.focus || "No focus set").trim(),
+		route: String(rawProfile?.route || safeFallback.route || "Unspecified").trim(),
+		notes: String(rawProfile?.notes || safeFallback.notes || "No notes added yet.").trim(),
+		lastUpdated: String(rawProfile?.lastUpdated || safeFallback.lastUpdated || new Date().toLocaleString()).trim()
+	};
+}
+
+function renderSessionProfile() {
+	if (!sessionStatusEl || !sessionFocusEl || !sessionRouteEl || !sessionLastUpdatedEl || !sessionNotesEl) {
+		return;
+	}
+
+	sessionStatusEl.textContent = state.sessionProfile.status || "Active";
+	sessionFocusEl.textContent = state.sessionProfile.focus || "No focus set";
+	sessionRouteEl.textContent = state.sessionProfile.route || "Unspecified";
+	sessionLastUpdatedEl.textContent = state.sessionProfile.lastUpdated || "Not recorded";
+	sessionNotesEl.textContent = state.sessionProfile.notes || "No notes added yet.";
+}
+
+function persistSessionProfile() {
+	localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(state.sessionProfile));
+}
+
+function syncSessionFormFromState() {
+	if (sessionStatusInputEl) {
+		sessionStatusInputEl.value = state.sessionProfile.status;
+	}
+
+	if (sessionFocusInputEl) {
+		sessionFocusInputEl.value = state.sessionProfile.focus;
+	}
+
+	if (sessionRouteInputEl) {
+		sessionRouteInputEl.value = state.sessionProfile.route;
+	}
+
+	if (sessionNotesInputEl) {
+		sessionNotesInputEl.value = state.sessionProfile.notes;
+	}
+}
+
 function renderOwnedShips() {
 	if (!ownedShipsListEl) {
 		return;
@@ -340,7 +401,18 @@ catch {
 	state.ownedShips = normalizeOwnedShips(state.ownedShips);
 }
 
+try {
+	const savedSessionProfileRaw = localStorage.getItem(SESSION_STORAGE_KEY);
+	if (savedSessionProfileRaw) {
+		state.sessionProfile = sanitizeSessionProfile(JSON.parse(savedSessionProfileRaw), state.sessionProfile);
+	}
+}
+catch {
+	state.sessionProfile = sanitizeSessionProfile(state.sessionProfile, state.sessionProfile);
+}
+
 renderPilotProfile();
+renderSessionProfile();
 renderOwnedShips();
 
 applyTheme(resolvedTheme);
@@ -371,7 +443,16 @@ function updatePendingThemeDescription(themeId) {
 	themeDescriptionEl.textContent = getThemeDescription(themeId);
 }
 
+function updateCustomizeButtonVisibility(themeId) {
+	if (!customizeThemeBtnEl) {
+		return;
+	}
+
+	customizeThemeBtnEl.hidden = themeId !== "custom";
+}
+
 updatePendingThemeDescription(pendingThemeSelection);
+updateCustomizeButtonVisibility(pendingThemeSelection);
 
 function updateVisualLabels() {
 	if (glowValueEl) {
@@ -459,6 +540,22 @@ if (themeSelectEl) {
 	themeSelectEl.addEventListener("change", (event) => {
 		pendingThemeSelection = event.target.value;
 		updatePendingThemeDescription(pendingThemeSelection);
+		updateCustomizeButtonVisibility(pendingThemeSelection);
+	});
+}
+
+if (customizeThemeBtnEl) {
+	customizeThemeBtnEl.addEventListener("click", () => {
+		if (!settingsDialogEl) {
+			return;
+		}
+
+		state.customThemeActive = true;
+		saveCustomThemeActive(true);
+		state.visualSettings = applyVisualSettings(state.visualSettings);
+		syncControlsFromState();
+		settingsDialogEl.showModal();
+		renderAppStatus(state);
 	});
 }
 
@@ -471,6 +568,7 @@ if (applyThemeBtnEl) {
 			saveCustomThemeActive(true);
 			state.visualSettings = applyVisualSettings(state.visualSettings);
 			syncControlsFromState();
+			updateCustomizeButtonVisibility(nextTheme);
 			closeThemeDropdown();
 			if (settingsDialogEl) {
 				settingsDialogEl.showModal();
@@ -485,6 +583,7 @@ if (applyThemeBtnEl) {
 		applyTheme(nextTheme);
 		clearCustomVisualSettings();
 		saveThemeId(nextTheme);
+		updateCustomizeButtonVisibility(nextTheme);
 		closeThemeDropdown();
 		renderAppStatus(state);
 	});
@@ -580,6 +679,40 @@ if (pilotSettingsFormEl && pilotSettingsDialogEl) {
 	});
 }
 
+if (editSessionBtnEl && sessionSettingsDialogEl) {
+	editSessionBtnEl.addEventListener("click", () => {
+		syncSessionFormFromState();
+		sessionSettingsDialogEl.showModal();
+	});
+}
+
+if (cancelSessionSettingsBtnEl && sessionSettingsDialogEl) {
+	cancelSessionSettingsBtnEl.addEventListener("click", () => {
+		sessionSettingsDialogEl.close();
+	});
+}
+
+if (sessionSettingsFormEl && sessionSettingsDialogEl) {
+	sessionSettingsFormEl.addEventListener("submit", (event) => {
+		event.preventDefault();
+
+		state.sessionProfile = sanitizeSessionProfile(
+			{
+				status: sessionStatusInputEl ? sessionStatusInputEl.value : state.sessionProfile.status,
+				focus: sessionFocusInputEl ? sessionFocusInputEl.value : state.sessionProfile.focus,
+				route: sessionRouteInputEl ? sessionRouteInputEl.value : state.sessionProfile.route,
+				notes: sessionNotesInputEl ? sessionNotesInputEl.value : state.sessionProfile.notes,
+				lastUpdated: new Date().toLocaleString()
+			},
+			state.sessionProfile
+		);
+
+		persistSessionProfile();
+		renderSessionProfile();
+		sessionSettingsDialogEl.close();
+	});
+}
+
 if (editHangarBtnEl && hangarSettingsDialogEl) {
 	editHangarBtnEl.addEventListener("click", () => {
 		renderHangarEditorShips();
@@ -608,7 +741,7 @@ if (hangarSettingsFormEl && hangarSettingsDialogEl) {
 if (hangarShipsListEl) {
 	hangarShipsListEl.addEventListener("click", (event) => {
 		const target = event.target;
-		if (!(target instanceof HTMLElement)) {
+		if (!(target instanceof Element)) {
 			return;
 		}
 

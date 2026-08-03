@@ -15,8 +15,9 @@
       <div class="container">
         <div class="header-top">
           <div>
-            <h1>Star Citizen Tracker</h1>
-            <p class="subtitle">Mining and salvage planner</p>
+            <h1>Star Citizen</h1>
+            <span>Mining and Salvage Tracker</span>
+            <p class="subtitle">Welcome Pilot!</p>
           </div>
 
           <div class="theme-menu-wrap">
@@ -34,6 +35,7 @@
               <select id="theme-select" name="theme-select"></select>
               <p class="theme-description" id="theme-description">Select a manufacturer visual style.</p>
               <button class="hud-settings-trigger theme-apply-button" id="apply-theme" type="button">Apply Theme</button>
+              <button class="hud-settings-trigger theme-customize-button" id="customize-theme" type="button" hidden>Customize</button>
             </section>
           </div>
         </div>
@@ -71,10 +73,41 @@
         </div>
       </section>
 
-      <section class="card ships-section" aria-label="Owned ships">
+      <section class="card session-section" aria-label="Active session">
+        <div class="session-head">
+          <h2>Session</h2>
+          <button class="hud-settings-trigger" id="edit-session-btn" type="button">Edit Session</button>
+        </div>
+
+        <div class="session-grid">
+          <article class="session-item">
+            <p class="session-label">Status</p>
+            <p class="session-value" id="session-status">Active</p>
+          </article>
+          <article class="session-item">
+            <p class="session-label">Focus</p>
+            <p class="session-value" id="session-focus">Salvage Ops</p>
+          </article>
+          <article class="session-item">
+            <p class="session-label">Route</p>
+            <p class="session-value" id="session-route">Stanton</p>
+          </article>
+          <article class="session-item">
+            <p class="session-label">Last Updated</p>
+            <p class="session-value" id="session-last-updated">Loading...</p>
+          </article>
+        </div>
+
+        <div class="session-notes">
+          <p class="session-label">Notes</p>
+          <p class="session-value" id="session-notes">No notes added yet.</p>
+        </div>
+      </section>
+
+      <section class="card ships-section" aria-label="Hangar">
         <div class="ships-head">
-          <h2>Owned Ships</h2>
-          <button class="hud-settings-trigger" id="edit-hangar-btn" type="button">Edit Hanger</button>
+          <h2>Hangar</h2>
+          <button class="hud-settings-trigger" id="edit-hangar-btn" type="button">Edit Hangar</button>
         </div>
 
         <ul class="ships-list" id="owned-ships-list" aria-live="polite">
@@ -105,6 +138,29 @@
         <div class="modal-actions">
           <button class="hud-settings-trigger" id="cancel-pilot-settings" type="button">Cancel</button>
           <button class="hud-settings-trigger" id="save-pilot-settings" type="submit">Save & Exit</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="hud-settings-modal session-settings-modal" id="session-settings-dialog" aria-labelledby="session-settings-title">
+      <form class="hud-settings-form" id="session-settings-form">
+        <h2 id="session-settings-title">Session Settings</h2>
+
+        <label class="theme-label" for="session-status-input">Status</label>
+        <input id="session-status-input" name="session-status-input" type="text" maxlength="40" />
+
+        <label class="theme-label" for="session-focus-input">Focus</label>
+        <input id="session-focus-input" name="session-focus-input" type="text" maxlength="60" />
+
+        <label class="theme-label" for="session-route-input">Route</label>
+        <input id="session-route-input" name="session-route-input" type="text" maxlength="80" />
+
+        <label class="theme-label" for="session-notes-input">Notes</label>
+        <textarea id="session-notes-input" name="session-notes-input" rows="4" maxlength="220"></textarea>
+
+        <div class="modal-actions">
+          <button class="hud-settings-trigger" id="cancel-session-settings" type="button">Cancel</button>
+          <button class="hud-settings-trigger" id="save-session-settings" type="submit">Save & Exit</button>
         </div>
       </form>
     </dialog>
