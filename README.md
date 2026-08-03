@@ -15,6 +15,8 @@ Clean local web app skeleton to build your browser-based app.
 
 Option 1: Open index.html directly in your browser.
 
+Note: Opening index.html directly will always open in a normal browser tab.
+
 Option 2: Run a local static server (recommended).
 
 Example with Python:
@@ -54,7 +56,7 @@ Changes apply live and are saved automatically per browser.
 
 ## One-click launch (tabless app window)
 
-Double-click launch-app.cmd to:
+Double-click Click to open.cmd to:
 
 - Start a local server on port 5500 (if not already running)
 - Open Microsoft Edge in app window mode without tab bar

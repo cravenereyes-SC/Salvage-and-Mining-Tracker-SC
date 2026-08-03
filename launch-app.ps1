@@ -17,6 +17,9 @@ if (-not $edgePath) {
   exit 1
 }
 
+$edgeProxyPath = Join-Path (Split-Path -Parent $edgePath) "msedge_proxy.exe"
+$edgeLauncherPath = if (Test-Path $edgeProxyPath) { $edgeProxyPath } else { $edgePath }
+
 $listener = Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue | Select-Object -First 1
 
 if (-not $listener) {
@@ -33,5 +36,12 @@ else {
   Write-Host "Using existing server on port $Port."
 }
 
-Start-Process -FilePath $edgePath -ArgumentList "--app=$Url" | Out-Null
+$edgeArgs = @(
+  "--new-window",
+  "--app=$Url",
+  "--no-first-run",
+  "--disable-session-crashed-bubble"
+)
+
+Start-Process -FilePath $edgeLauncherPath -ArgumentList $edgeArgs | Out-Null
 Write-Host "Opened Edge app window at $Url"
