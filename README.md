@@ -1,6 +1,6 @@
 # Star Citizen Mining and Salvage Tracker
 
-Clean local web app skeleton to build your browser-based app.
+Clean local web app skeleton to build an app to track mining and salvage operations including profit and loss.
 
 ## Folder structure
 
