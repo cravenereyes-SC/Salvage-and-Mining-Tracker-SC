@@ -13,6 +13,8 @@ const workOrderSplashEl = document.querySelector("#work-order-splash");
 const workOrderFormEl = document.querySelector("#work-order-form");
 const cancelWorkOrderBtnEl = document.querySelector("#cancel-work-order-btn");
 const workOrderSummaryEl = document.querySelector("#work-order-summary");
+const durationHoursEl = document.querySelector("#work-order-hours");
+const durationMinutesEl = document.querySelector("#work-order-minutes");
 const sessionSplashEl = document.querySelector("#session-splash");
 const launchSessionBtnEl = document.querySelector("#launch-session-btn");
 const activitySelectEl = document.querySelector("#activity-select");
@@ -42,13 +44,14 @@ function generateSessionId() {
 }
 
 function formatCountdown(totalSeconds) {
+  const hours = Math.floor(totalSeconds / 3600).toString().padStart(2, "0");
   const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, "0");
   const seconds = (totalSeconds % 60).toString().padStart(2, "0");
-  return `${minutes}:${seconds}`;
+  return `${hours}:${(Number(minutes) % 60).toString().padStart(2, "0")}:${seconds}`;
 }
 
-function startWorkOrderCountdown(durationMinutes, countdownEl) {
-  let remainingSeconds = Math.max(0, Math.round(Number(durationMinutes) * 60));
+function startWorkOrderCountdown(durationSeconds, countdownEl) {
+  let remainingSeconds = Math.max(0, Math.round(Number(durationSeconds)));
   countdownEl.textContent = `Time remaining: ${formatCountdown(remainingSeconds)}`;
 
   const countdownInterval = setInterval(() => {
@@ -109,10 +112,20 @@ if (workOrderFormEl && workOrderSplashEl && workOrderSummaryEl) {
     event.preventDefault();
 
     const formData = new FormData(workOrderFormEl);
+    const durationHours = Number(formData.get("durationHours") || 0);
+    const durationMinutes = Number(formData.get("durationMinutes") || 0);
+    const durationSeconds = (durationHours * 60 * 60) + (durationMinutes * 60);
+
+    if (durationSeconds <= 0) {
+      return;
+    }
+
     const order = {
       location: String(formData.get("processingLocation") || ""),
       type: String(formData.get("type") || ""),
-      duration: String(formData.get("duration") || ""),
+      durationHours,
+      durationMinutes,
+      durationSeconds,
       cost: String(formData.get("cost") || "")
     };
     const orderEntry = document.createElement("div");
@@ -121,11 +134,15 @@ if (workOrderFormEl && workOrderSplashEl && workOrderSummaryEl) {
     const countdown = document.createElement("span");
     orderEntry.className = "work-order-entry";
     orderTitle.textContent = order.type;
-    orderDetails.textContent = `${order.location} | ${order.duration} min | ${Number(order.cost).toLocaleString("en-US")} aUEC`;
+    const durationLabel = [
+      order.durationHours ? `${order.durationHours}h` : "",
+      order.durationMinutes ? `${order.durationMinutes}m` : ""
+    ].filter(Boolean).join(" ");
+    orderDetails.textContent = `${order.location} | ${durationLabel} | ${Number(order.cost).toLocaleString("en-US")} aUEC`;
     countdown.className = "work-order-countdown";
     orderEntry.append(orderTitle, orderDetails, countdown);
     workOrderSummaryEl.append(orderEntry);
-    startWorkOrderCountdown(order.duration, countdown);
+    startWorkOrderCountdown(order.durationSeconds, countdown);
     workOrderFormEl.reset();
     workOrderSplashEl.hidden = true;
   });

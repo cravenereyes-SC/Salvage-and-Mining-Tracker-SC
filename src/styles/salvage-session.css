@@ -69,6 +69,32 @@
   outline-offset: 1px;
 }
 
+.duration-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem 0.75rem;
+  margin: 0 0 0.9rem;
+  padding: 0;
+  border: 0;
+}
+
+.duration-fields legend {
+  grid-column: 1 / -1;
+  padding: 0;
+  color: var(--text);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.duration-fields label {
+  margin: 0;
+}
+
+.duration-fields select {
+  margin: 0;
+}
+
 .work-order-form-actions {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
