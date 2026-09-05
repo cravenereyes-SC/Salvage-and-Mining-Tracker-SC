@@ -84,55 +84,7 @@
         </ul>
       </section>
 
-      <section class="card session-section" aria-label="Active session">
-        <div class="session-head">
-          <h2>Session</h2>
-          <button class="hud-settings-trigger" id="edit-session-btn" type="button">Edit Session</button>
-        </div>
 
-        <div class="session-grid">
-          <article class="session-item">
-            <p class="session-label">Status</p>
-            <p class="session-value" id="session-status">Active</p>
-          </article>
-          <article class="session-item">
-            <p class="session-label">Focus</p>
-            <p class="session-value" id="session-focus">Salvage Ops</p>
-          </article>
-          <article class="session-item">
-            <p class="session-label">Route</p>
-            <p class="session-value" id="session-route">Stanton</p>
-          </article>
-          <article class="session-item">
-            <p class="session-label">Last Updated</p>
-            <p class="session-value" id="session-last-updated">Loading...</p>
-          </article>
-        </div>
-
-        <div class="session-notes">
-          <p class="session-label">Notes</p>
-          <p class="session-value" id="session-notes">No notes added yet.</p>
-        </div>
-
-        <div class="session-history" aria-label="Session history">
-          <p class="session-label">Session Ledger</p>
-
-          <div class="session-history-group">
-            <h3>Open</h3>
-            <ul class="session-history-list" id="session-history-open"></ul>
-          </div>
-
-          <div class="session-history-group">
-            <h3>Closed</h3>
-            <ul class="session-history-list" id="session-history-closed"></ul>
-          </div>
-
-          <div class="session-history-group">
-            <h3>Failed</h3>
-            <ul class="session-history-list" id="session-history-failed"></ul>
-          </div>
-        </div>
-      </section>
     </main>
 
     <dialog class="hud-settings-modal pilot-settings-modal" id="pilot-settings-dialog" aria-labelledby="pilot-settings-title">
@@ -161,34 +113,6 @@
       </form>
     </dialog>
 
-    <dialog class="hud-settings-modal session-settings-modal" id="session-settings-dialog" aria-labelledby="session-settings-title">
-      <form class="hud-settings-form" id="session-settings-form">
-        <h2 id="session-settings-title">Session Settings</h2>
-
-        <label class="theme-label" for="session-status-input">Status</label>
-        <input id="session-status-input" name="session-status-input" type="text" maxlength="40" />
-
-        <label class="theme-label" for="session-focus-input">Focus</label>
-        <input id="session-focus-input" name="session-focus-input" type="text" maxlength="60" />
-
-        <label class="theme-label" for="session-route-input">Route</label>
-        <input id="session-route-input" name="session-route-input" type="text" maxlength="80" />
-
-        <label class="theme-label" for="session-notes-input">Notes</label>
-        <textarea id="session-notes-input" name="session-notes-input" rows="4" maxlength="220"></textarea>
-
-        <label class="theme-label" for="session-income-input">Income Categories (one per line: Name: Amount)</label>
-        <textarea id="session-income-input" name="session-income-input" rows="4" maxlength="400" placeholder="Cargo Sale: 8600"></textarea>
-
-        <label class="theme-label" for="session-cost-input">Cost Categories (one per line: Name: Amount)</label>
-        <textarea id="session-cost-input" name="session-cost-input" rows="4" maxlength="400" placeholder="Fuel: 1200"></textarea>
-
-        <div class="modal-actions">
-          <button class="hud-settings-trigger" id="cancel-session-settings" type="button">Cancel</button>
-          <button class="hud-settings-trigger" id="save-session-settings" type="submit">Save & Exit</button>
-        </div>
-      </form>
-    </dialog>
 
     <dialog class="hud-settings-modal hangar-settings-modal" id="hangar-settings-dialog" aria-labelledby="hangar-settings-title">
       <form class="hud-settings-form" id="hangar-settings-form">
