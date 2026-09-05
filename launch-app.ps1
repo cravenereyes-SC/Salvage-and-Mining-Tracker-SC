@@ -24,11 +24,61 @@ $listener = Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction Sil
 
 if (-not $listener) {
   try {
-    Start-Process -FilePath "py" -ArgumentList "-m", "http.server", $Port -WorkingDirectory $ScriptRoot -WindowStyle Minimized | Out-Null
-    Write-Host "Started local server on port $Port."
+    $serverScript = Join-Path $env:TEMP "sc-tracker-server-$Port.ps1"
+    $serverSource = @'
+param(
+  [string]$Root,
+  [int]$Port
+)
+
+$listener = New-Object System.Net.HttpListener
+$listener.Prefixes.Add("http://localhost:$Port/")
+$listener.Start()
+Write-Output "Server listening on http://localhost:$Port/"
+
+while ($listener.IsListening) {
+  try {
+    $ctx = $listener.GetContext()
+    $path = [System.Uri]::UnescapeDataString($ctx.Request.Url.LocalPath).TrimStart('/')
+    if ([string]::IsNullOrEmpty($path)) { $path = 'index.html' }
+    $file = Join-Path $Root $path
+    if ((Test-Path $file -PathType Leaf) -and ((Resolve-Path $file).Path.StartsWith($Root))) {
+      $bytes = [System.IO.File]::ReadAllBytes($file)
+      $ext = [System.IO.Path]::GetExtension($file).ToLower()
+      $mime = switch ($ext) {
+        '.html' { 'text/html; charset=utf-8' }
+        '.css'  { 'text/css; charset=utf-8' }
+        '.js'   { 'text/javascript; charset=utf-8' }
+        '.mjs'  { 'text/javascript; charset=utf-8' }
+        '.json' { 'application/json; charset=utf-8' }
+        '.svg'  { 'image/svg+xml' }
+        '.png'  { 'image/png' }
+        '.jpg'  { 'image/jpeg' }
+        '.jpeg' { 'image/jpeg' }
+        '.ico'  { 'image/x-icon' }
+        default { 'application/octet-stream' }
+      }
+      $ctx.Response.ContentType = $mime
+      $ctx.Response.ContentLength64 = $bytes.Length
+      $ctx.Response.OutputStream.Write($bytes, 0, $bytes.Length)
+    }
+    else {
+      $ctx.Response.StatusCode = 404
+    }
+    $ctx.Response.Close()
   }
   catch {
-    Write-Error "Could not start local server with 'py -m http.server $Port'."
+    # Keep serving subsequent requests even if one client disconnects mid-response.
+  }
+}
+'@
+
+    Set-Content -Path $serverScript -Value $serverSource -Encoding UTF8
+    Start-Process -FilePath "powershell" -ArgumentList "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $serverScript, "-Root", ('"' + $ScriptRoot + '"'), "-Port", $Port -WorkingDirectory $ScriptRoot -WindowStyle Minimized | Out-Null
+    Write-Host "Started local server on port $Port (PowerShell HttpListener, no Python required)."
+  }
+  catch {
+    Write-Error "Could not start local server on port $Port. Details: $($_.Exception.Message)"
     exit 1
   }
 }
