@@ -9,6 +9,10 @@ import {
 
 const historyBtnEl = document.querySelector("#session-history-btn");
 const beginSalvageBtnEl = document.querySelector("#begin-salvage-btn");
+const sessionSplashEl = document.querySelector("#session-splash");
+const launchSessionBtnEl = document.querySelector("#launch-session-btn");
+const activitySelectEl = document.querySelector("#activity-select");
+const sessionIdEl = document.querySelector("#session-id");
 const sessionClockEl = document.querySelector("#session-clock");
 let elapsedSeconds = 0;
 
@@ -29,6 +33,10 @@ function formatElapsedTime(seconds) {
   return `${hours}:${minutes}:${remainingSeconds}`;
 }
 
+function generateSessionId() {
+  return Math.floor(1000 + Math.random() * 9000).toString();
+}
+
 setInterval(() => {
   elapsedSeconds += 1;
   if (sessionClockEl) {
@@ -39,6 +47,20 @@ setInterval(() => {
 if (historyBtnEl) {
   historyBtnEl.addEventListener("click", () => {
     window.location.href = "sessions.html";
+  });
+}
+
+if (launchSessionBtnEl && sessionSplashEl) {
+  launchSessionBtnEl.addEventListener("click", () => {
+    const activity = activitySelectEl?.value || "salvage";
+    const sessionId = generateSessionId();
+    sessionSplashEl.hidden = true;
+    document.body.dataset.activity = activity;
+    document.body.dataset.sessionId = sessionId;
+
+    if (sessionIdEl) {
+      sessionIdEl.textContent = `ID ${sessionId}`;
+    }
   });
 }
 

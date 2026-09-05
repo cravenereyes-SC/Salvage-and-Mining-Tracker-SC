@@ -1,3 +1,60 @@
+.session-splash {
+  position: fixed;
+  z-index: 10;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: color-mix(in srgb, var(--bg-deep) 88%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.session-splash-panel {
+  width: min(100%, 420px);
+  padding: 2rem;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--surface-strong) 94%, var(--accent) 6%), var(--surface));
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  box-shadow: 0 0 40px color-mix(in srgb, var(--accent) 24%, transparent), var(--shadow);
+}
+
+.session-splash-panel h1 {
+  margin: 0.25rem 0 0.75rem;
+}
+
+.session-splash-panel p:not(.eyebrow) {
+  margin: 0 0 1.5rem;
+  color: var(--muted);
+}
+
+.session-splash-panel label {
+  display: block;
+  margin-bottom: 0.45rem;
+  color: var(--text);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.session-splash-panel select {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.7rem;
+  color: var(--text);
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font: inherit;
+}
+
+.session-splash-panel button {
+  width: 100%;
+}
+
+.session-splash[hidden] {
+  display: none;
+}
+
 .salvage-session-shell {
   width: min(100% - 2rem, 1100px);
   margin-inline: auto;
@@ -59,13 +116,19 @@
 }
 
 .salvage-overview,
-.salvage-grid {
+.salvage-grid,
+.session-sections {
   display: grid;
   gap: 1rem;
 }
 
 .salvage-overview {
-  grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr);
+  grid-template-columns: 1fr;
+  margin-bottom: 1rem;
+}
+
+.session-sections {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   margin-bottom: 1rem;
 }
 
@@ -219,6 +282,30 @@
   border-top: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
 }
 
+.detail-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.7rem;
+  padding: 0.6rem 0;
+  border-top: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+}
+
+.detail-row span {
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.detail-row strong {
+  color: var(--text);
+  font-size: 0.82rem;
+  text-align: right;
+}
+
+.total-row strong {
+  color: var(--accent);
+}
+
 .readiness-row strong {
   color: var(--accent);
 }
@@ -305,7 +392,8 @@
 @media (max-width: 760px) {
   .salvage-session-header,
   .salvage-overview,
-  .salvage-grid {
+  .salvage-grid,
+  .session-sections {
     grid-template-columns: 1fr;
   }
 

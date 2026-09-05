@@ -12,39 +12,71 @@
     <link rel="stylesheet" href="src/styles/salvage-session.css" />
   </head>
   <body data-theme="rsi">
+    <div class="session-splash" id="session-splash" role="dialog" aria-modal="true" aria-labelledby="splash-title">
+      <div class="session-splash-panel">
+        <p class="eyebrow">Operation setup</p>
+        <h1 id="splash-title">Select Activity</h1>
+        <p>Choose the operation profile for this new session.</p>
+        <label for="activity-select">Activity</label>
+        <select id="activity-select" name="activity">
+          <option value="salvage">Salvage</option>
+          <option value="mining">Mining</option>
+        </select>
+        <button id="launch-session-btn" class="hud-settings-trigger primary-action" type="button">Create New Session</button>
+      </div>
+    </div>
+
     <main class="salvage-session-shell">
       <header class="salvage-session-header">
         <div>
           <p class="eyebrow">Operations / New Session</p>
           <h1>Salvage Run Control</h1>
-          <p class="session-status"><span class="status-dot"></span> Session ready <span id="session-clock">00:00:00</span></p>
+          <p class="session-status"><span class="status-dot"></span> Session ready <span id="session-id">ID ----</span> <span id="session-clock">00:00:00</span></p>
         </div>
         <button id="session-history-btn" class="hud-settings-trigger" type="button">Session History</button>
       </header>
 
       <section class="salvage-overview" aria-label="Salvage session overview">
-        <article class="salvage-panel route-panel">
-          <div class="panel-heading">
-            <div>
-              <p class="eyebrow">Active route</p>
-              <h2>Wreckage Site: Yela Belt</h2>
-            </div>
-            <span class="status-label">SCANNING</span>
-          </div>
-          <div class="route-line"><span>CRU-L1</span><span class="route-line-fill"></span><span>YELA</span></div>
-          <div class="route-meta">
-            <div><span>Distance</span><strong>18.4 km</strong></div>
-            <div><span>Risk profile</span><strong class="warning-text">Moderate</strong></div>
-            <div><span>Estimated haul</span><strong>42,800 aUEC</strong></div>
-          </div>
-        </article>
-
         <article class="salvage-panel metric-panel">
           <p class="eyebrow">Session yield</p>
           <div class="metric-value">0 <small>aUEC</small></div>
           <div class="metric-subline"><span>Projected</span><strong>42,800 aUEC</strong></div>
           <div class="progress-track"><span style="width: 0%"></span></div>
           <p class="metric-caption">No materials collected</p>
+        </article>
+      </section>
+
+      <section class="session-sections" aria-label="Session details">
+        <article class="salvage-panel session-detail-panel">
+          <div class="panel-heading"><h2>Ship Details</h2><span class="panel-code">VESSEL</span></div>
+          <div class="detail-row"><span>Ship</span><strong>Drake Vulture</strong></div>
+          <div class="detail-row"><span>Role</span><strong>Salvage</strong></div>
+          <div class="detail-row"><span>Size</span><strong>Small</strong></div>
+          <div class="detail-row"><span>Power reserve</span><strong>78%</strong></div>
+        </article>
+
+        <article class="salvage-panel session-detail-panel">
+          <div class="panel-heading"><h2>Focus Materials</h2><span class="panel-code">TARGETS</span></div>
+          <div class="detail-row"><span>Primary</span><strong>RMC</strong></div>
+          <div class="detail-row"><span>Secondary</span><strong>CMAT</strong></div>
+          <div class="detail-row"><span>Special find</span><strong>Electronics</strong></div>
+          <div class="detail-row"><span>Hold capacity</span><strong>12 SCU</strong></div>
+        </article>
+
+        <article class="salvage-panel session-detail-panel">
+          <div class="panel-heading"><h2>Expenses</h2><span class="panel-code">BUDGET</span></div>
+          <div class="detail-row"><span>Fuel reserve</span><strong>1,200 aUEC</strong></div>
+          <div class="detail-row"><span>Consumables</span><strong>650 aUEC</strong></div>
+          <div class="detail-row"><span>Repair reserve</span><strong>2,000 aUEC</strong></div>
+          <div class="detail-row total-row"><span>Estimated total</span><strong>3,850 aUEC</strong></div>
+        </article>
+
+        <article class="salvage-panel session-detail-panel">
+          <div class="panel-heading"><h2>Work Orders</h2><span class="panel-code">ACTIVE</span></div>
+          <div class="detail-row"><span>Primary</span><strong>Derelict hull recovery</strong></div>
+          <div class="detail-row"><span>Location</span><strong>Yela asteroid belt</strong></div>
+          <div class="detail-row"><span>Priority</span><strong class="warning-text">Standard</strong></div>
+          <div class="detail-row"><span>Duration</span><strong>45 min</strong></div>
         </article>
       </section>
 
