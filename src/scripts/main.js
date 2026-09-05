@@ -52,6 +52,8 @@ const pilotShipInputEl = document.querySelector("#pilot-ship-input");
 const pilotSystemInputEl = document.querySelector("#pilot-system-input");
 const pilotSpecialtiesInputEl = document.querySelector("#pilot-specialties-input");
 const ownedShipsListEl = document.querySelector("#owned-ships-list");
+const openSessionBtnEl = document.querySelector("#open-session-btn");
+const workOrdersContainerEl = document.querySelector("#work-orders-container");
 const editHangarBtnEl = document.querySelector("#edit-hangar-btn");
 const hangarSettingsDialogEl = document.querySelector("#hangar-settings-dialog");
 const hangarSettingsFormEl = document.querySelector("#hangar-settings-form");
@@ -229,6 +231,46 @@ function renderOwnedShips() {
 	});
 }
 
+function renderActiveWorkOrders() {
+	if (!workOrdersContainerEl) {
+		return;
+	}
+
+	workOrdersContainerEl.innerHTML = "";
+
+	if (!Array.isArray(state.activeWorkOrders) || state.activeWorkOrders.length === 0) {
+		const emptyMsg = document.createElement("p");
+		emptyMsg.className = "work-orders-empty";
+		emptyMsg.textContent = "No active work orders";
+		workOrdersContainerEl.append(emptyMsg);
+		return;
+	}
+
+	state.activeWorkOrders.forEach((workOrder) => {
+		const item = document.createElement("div");
+		item.className = "work-order-item";
+
+		const details = document.createElement("div");
+		details.className = "work-order-details";
+
+		const name = document.createElement("p");
+		name.className = "work-order-name";
+		name.textContent = workOrder.name;
+
+		const location = document.createElement("p");
+		location.className = "work-order-location";
+		location.textContent = `📍 ${workOrder.location}`;
+
+		const time = document.createElement("p");
+		time.className = "work-order-time";
+		time.textContent = `⏱ Time Left: ${workOrder.timeRemaining}`;
+
+		details.append(name, location, time);
+		item.append(details);
+		workOrdersContainerEl.append(item);
+	});
+}
+
 function persistOwnedShips() {
 	localStorage.setItem(HANGAR_STORAGE_KEY, JSON.stringify(state.ownedShips));
 }
@@ -344,6 +386,7 @@ catch {
 
 renderPilotProfile();
 renderOwnedShips();
+renderActiveWorkOrders();
 
 applyTheme(resolvedTheme);
 
@@ -608,8 +651,6 @@ if (pilotSettingsFormEl && pilotSettingsDialogEl) {
 		pilotSettingsDialogEl.close();
 	});
 }
-
-
 
 if (editHangarBtnEl && hangarSettingsDialogEl) {
 	editHangarBtnEl.addEventListener("click", () => {

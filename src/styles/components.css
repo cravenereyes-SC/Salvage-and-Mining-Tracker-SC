@@ -75,6 +75,90 @@
   margin-bottom: 0;
 }
 
+.sessions-btn {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  padding: 0.6rem;
+  background: color-mix(in srgb, var(--surface-strong) 88%, transparent);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sessions-btn:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.active-work-orders-section {
+  margin-bottom: 0.5rem;
+  padding: 0.85rem;
+}
+
+.work-orders-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  margin: 0 0 0.6rem;
+}
+
+.work-orders-container {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.work-order-item {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.6rem;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  transition: all 0.2s ease;
+}
+
+.work-order-item:hover {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.work-order-details {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+}
+
+.work-order-name {
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
+.work-order-location {
+  color: var(--accent);
+  margin: 0;
+  font-size: 0.73rem;
+}
+
+.work-order-time {
+  color: #7dd3fc;
+  margin: 0;
+  font-size: 0.73rem;
+  font-weight: 500;
+}
+
+.work-orders-empty {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.78rem;
+  margin: 0;
+  text-align: center;
+  padding: 0.5rem;
+}
+
 .ships-section {
   margin-bottom: 0;
   padding: 0.85rem;

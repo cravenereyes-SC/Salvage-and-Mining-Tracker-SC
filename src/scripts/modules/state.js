@@ -33,6 +33,22 @@ export function createInitialState() {
         size: "Small"
       }
     ],
+    activeWorkOrders: [
+      {
+        id: "wo-001",
+        name: "Salvage Operation - Wreckage Site",
+        location: "Stanton - Lagrange Point",
+        timeRemaining: "2h 30m",
+        status: "active"
+      },
+      {
+        id: "wo-002",
+        name: "Mining Survey",
+        location: "Stanton - Omen",
+        timeRemaining: "4h 15m",
+        status: "active"
+      }
+    ],
     visualSettings: {
       glowStrength: 0.7,
       scanlineStrength: 0.08
