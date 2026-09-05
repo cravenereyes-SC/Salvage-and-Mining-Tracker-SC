@@ -517,6 +517,12 @@ if (themeSelectEl) {
 	});
 }
 
+if (openSessionBtnEl) {
+	openSessionBtnEl.addEventListener("click", () => {
+		window.open("sessions.html", "sc-tracker-sessions", "width=1000,height=800");
+	});
+}
+
 if (customizeThemeBtnEl) {
 	customizeThemeBtnEl.addEventListener("click", () => {
 		if (!settingsDialogEl) {

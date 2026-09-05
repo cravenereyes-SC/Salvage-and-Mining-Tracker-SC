@@ -33,6 +33,7 @@ export function createInitialState() {
         size: "Small"
       }
     ],
+    sessions: [],
     activeWorkOrders: [
       {
         id: "wo-001",

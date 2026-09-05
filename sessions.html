@@ -3,276 +3,48 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Active Sessions - Star Citizen Tracker</title>
-    <meta name="description" content="View and manage active sessions." />
+    <title>Session History - Star Citizen Tracker</title>
+    <meta name="description" content="Review active, completed and failed sessions with profit, loss and work order summaries." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="src/styles/main.css" />
-    <style>
-      .sessions-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-      }
-
-      .sessions-header h1 {
-        margin: 0;
-      }
-
-      .sessions-header button {
-        padding: 0.5rem 1rem;
-        background: color-mix(in srgb, var(--surface-strong) 88%, transparent);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        color: var(--text);
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-
-      .sessions-header button:hover {
-        border-color: var(--accent);
-        box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 25%, transparent);
-      }
-
-      .sessions-list {
-        display: grid;
-        gap: 1rem;
-      }
-
-      .session-card {
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 1rem;
-        background: color-mix(in srgb, var(--surface) 92%, transparent);
-        backdrop-filter: blur(6px);
-        transition: all 0.2s ease;
-      }
-
-      .session-card:hover {
-        border-color: var(--accent);
-        box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent);
-      }
-
-      .session-card-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 1rem;
-      }
-
-      .session-card-title {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: var(--text);
-        margin: 0;
-      }
-
-      .session-status {
-        display: inline-block;
-        padding: 0.3rem 0.6rem;
-        border-radius: 999px;
-        font-size: 0.7rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        background: color-mix(in srgb, var(--accent-soft) 55%, transparent);
-        color: var(--accent);
-      }
-
-      .session-meta {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-        margin-bottom: 1rem;
-      }
-
-      .meta-item {
-        display: flex;
-        flex-direction: column;
-        gap: 0.3rem;
-      }
-
-      .meta-label {
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: var(--muted);
-      }
-
-      .meta-value {
-        font-size: 0.95rem;
-        color: var(--text);
-        font-weight: 500;
-      }
-
-      .work-order-stats {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--border);
-      }
-
-      .stat-box {
-        text-align: center;
-      }
-
-      .stat-number {
-        font-size: 2rem;
-        font-weight: 700;
-        color: var(--accent);
-        margin: 0.5rem 0;
-      }
-
-      .stat-label {
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: var(--muted);
-      }
-
-      .empty-state {
-        text-align: center;
-        padding: 3rem 1rem;
-        color: var(--muted);
-      }
-
-      .empty-state h2 {
-        color: var(--text);
-        margin-bottom: 0.5rem;
-      }
-
-      .sessions-container {
-        width: min(100% - 2rem, 900px);
-        margin-inline: auto;
-        padding: 2rem 0 1rem;
-      }
-
-      .sessions-footer {
-        text-align: center;
-        color: var(--muted);
-        font-size: 0.7rem;
-        margin-top: 2rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--border);
-      }
-    </style>
+    <link rel="stylesheet" href="src/styles/sessions.css" />
   </head>
   <body data-theme="rsi">
     <div class="sessions-container">
-      <div class="sessions-header">
-        <h1>Active Sessions</h1>
-        <button type="button" onclick="window.close()">Close</button>
-      </div>
-
-      <div class="sessions-list" id="sessions-list">
-        <div class="session-card">
-          <div class="session-card-header">
-            <h2 class="session-card-title">Salvage Operation - Wreckage Site</h2>
-            <span class="session-status">Active</span>
-          </div>
-
-          <div class="session-meta">
-            <div class="meta-item">
-              <span class="meta-label">Location</span>
-              <span class="meta-value">Stanton - Lagrange Point</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">Started</span>
-              <span class="meta-value">2026-09-04 14:30</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">Focus</span>
-              <span class="meta-value">Salvage Ops</span>
-            </div>
-          </div>
-
-          <div class="work-order-stats">
-            <div class="stat-box">
-              <div class="stat-label">Active Orders</div>
-              <div class="stat-number">3</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-label">Completed Orders</div>
-              <div class="stat-number">2</div>
-            </div>
-          </div>
+      <header class="sessions-header">
+        <button id="back-btn" class="hud-settings-trigger back-btn" type="button" title="Back to Pilot Profile">&larr; Back</button>
+        <div class="sessions-title-wrap">
+          <h1>Session History</h1>
+          <p class="sessions-subtitle" id="session-count">0 sessions</p>
         </div>
+      </header>
 
-        <div class="session-card">
-          <div class="session-card-header">
-            <h2 class="session-card-title">Mining Survey - Ore Extraction</h2>
-            <span class="session-status">Active</span>
-          </div>
+      <section class="totals-strip" id="totals-strip" aria-label="Overall totals"></section>
 
-          <div class="session-meta">
-            <div class="meta-item">
-              <span class="meta-label">Location</span>
-              <span class="meta-value">Stanton - Omen</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">Started</span>
-              <span class="meta-value">2026-09-04 10:15</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">Focus</span>
-              <span class="meta-value">Mining Support</span>
-            </div>
-          </div>
+      <div class="sessions-list" id="sessions-list"></div>
 
-          <div class="work-order-stats">
-            <div class="stat-box">
-              <div class="stat-label">Active Orders</div>
-              <div class="stat-number">5</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-label">Completed Orders</div>
-              <div class="stat-number">8</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="session-card">
-          <div class="session-card-header">
-            <h2 class="session-card-title">Cargo Logistics Run</h2>
-            <span class="session-status">Active</span>
-          </div>
-
-          <div class="session-meta">
-            <div class="meta-item">
-              <span class="meta-label">Location</span>
-              <span class="meta-value">Stanton - Port Olisar</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">Started</span>
-              <span class="meta-value">2026-09-04 08:45</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">Focus</span>
-              <span class="meta-value">Cargo Logistics</span>
-            </div>
-          </div>
-
-          <div class="work-order-stats">
-            <div class="stat-box">
-              <div class="stat-label">Active Orders</div>
-              <div class="stat-number">1</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-label">Completed Orders</div>
-              <div class="stat-number">4</div>
-            </div>
-          </div>
-        </div>
+      <div class="empty-state" id="empty-state" hidden>
+        <h2>No Sessions Recorded</h2>
+        <p>Session history will appear here once sessions are tracked. Active, completed and failed sessions will show profit, loss, expenses and work order summaries.</p>
       </div>
 
       <div class="sessions-footer">
         Star Citizen Mining and Salvage Tracker • Sessions Window
       </div>
     </div>
+
+    <dialog class="session-detail-dialog" id="session-detail-dialog" aria-labelledby="session-detail-title">
+      <div class="session-detail-panel">
+        <div class="session-detail-head">
+          <h2 id="session-detail-title">Session Details</h2>
+          <button id="close-session-detail" class="hud-settings-trigger" type="button">Close</button>
+        </div>
+        <div id="session-detail-content"></div>
+      </div>
+    </dialog>
+
+    <script type="module" src="src/scripts/sessions.js"></script>
   </body>
 </html>
