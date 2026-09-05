@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Salvage Session - Star Citizen Tracker</title>
+    <meta name="description" content="Plan and monitor a new Star Citizen salvage session." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="src/styles/main.css" />
+    <link rel="stylesheet" href="src/styles/salvage-session.css" />
+  </head>
+  <body data-theme="rsi">
+    <main class="salvage-session-shell">
+      <header class="salvage-session-header">
+        <div>
+          <p class="eyebrow">Operations / New Session</p>
+          <h1>Salvage Run Control</h1>
+          <p class="session-status"><span class="status-dot"></span> Session ready <span id="session-clock">00:00:00</span></p>
+        </div>
+        <button id="session-history-btn" class="hud-settings-trigger" type="button">Session History</button>
+      </header>
+
+      <section class="salvage-overview" aria-label="Salvage session overview">
+        <article class="salvage-panel route-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Active route</p>
+              <h2>Wreckage Site: Yela Belt</h2>
+            </div>
+            <span class="status-label">SCANNING</span>
+          </div>
+          <div class="route-line"><span>CRU-L1</span><span class="route-line-fill"></span><span>YELA</span></div>
+          <div class="route-meta">
+            <div><span>Distance</span><strong>18.4 km</strong></div>
+            <div><span>Risk profile</span><strong class="warning-text">Moderate</strong></div>
+            <div><span>Estimated haul</span><strong>42,800 aUEC</strong></div>
+          </div>
+        </article>
+
+        <article class="salvage-panel metric-panel">
+          <p class="eyebrow">Session yield</p>
+          <div class="metric-value">0 <small>aUEC</small></div>
+          <div class="metric-subline"><span>Projected</span><strong>42,800 aUEC</strong></div>
+          <div class="progress-track"><span style="width: 0%"></span></div>
+          <p class="metric-caption">No materials collected</p>
+        </article>
+      </section>
+
+      <section class="salvage-grid" aria-label="Salvage operation data">
+        <article class="salvage-panel data-panel">
+          <div class="panel-heading"><h2>Vessel Readiness</h2><span class="panel-code">VLT-07</span></div>
+          <div class="readiness-row"><span>Drake Vulture</span><strong>Ready</strong></div>
+          <div class="readiness-row"><span>Reclaimer head</span><strong>100%</strong></div>
+          <div class="readiness-row"><span>Tractor beam</span><strong>92%</strong></div>
+          <div class="readiness-row"><span>Power reserve</span><strong>78%</strong></div>
+          <div class="readiness-row"><span>Coolant load</span><strong>34%</strong></div>
+        </article>
+
+        <article class="salvage-panel data-panel cargo-panel">
+          <div class="panel-heading"><h2>Cargo Hold</h2><span class="panel-code">0 / 12 SCU</span></div>
+          <div class="cargo-visual"><span></span></div>
+          <div class="cargo-legend"><span>Free capacity</span><strong>100%</strong></div>
+          <div class="material-tags"><span>RMC</span><span>CMAT</span><span>Construction</span></div>
+        </article>
+
+        <article class="salvage-panel data-panel">
+          <div class="panel-heading"><h2>Target Composition</h2><span class="panel-code">SCAN DATA</span></div>
+          <div class="composition-row"><span>Recycled Material Composite</span><strong>62%</strong></div>
+          <div class="composition-bar"><span style="width: 62%"></span></div>
+          <div class="composition-row"><span>Construction Material</span><strong>24%</strong></div>
+          <div class="composition-bar"><span style="width: 24%"></span></div>
+          <div class="composition-row"><span>Electronic Scrap</span><strong>14%</strong></div>
+          <div class="composition-bar"><span style="width: 14%"></span></div>
+        </article>
+      </section>
+
+      <section class="salvage-panel work-order-panel" aria-label="Salvage work order">
+        <div class="panel-heading">
+          <div><p class="eyebrow">Work order</p><h2>Strip and recover derelict hull</h2></div>
+          <button id="begin-salvage-btn" class="hud-settings-trigger primary-action" type="button">Begin Salvage</button>
+        </div>
+        <div class="order-details">
+          <div><span>Client</span><strong>Independent Contract</strong></div>
+          <div><span>Location</span><strong>Yela asteroid belt</strong></div>
+          <div><span>Priority</span><strong class="warning-text">Standard</strong></div>
+          <div><span>Expected duration</span><strong>45 min</strong></div>
+        </div>
+      </section>
+
+      <footer class="salvage-footer">Star Citizen Mining and Salvage Tracker | Salvage Operations</footer>
+    </main>
+    <script type="module" src="src/scripts/salvage-session.js"></script>
+  </body>
+</html>
