@@ -26,6 +26,33 @@
       </div>
     </div>
 
+    <div class="session-splash" id="work-order-splash" role="dialog" aria-modal="true" aria-labelledby="work-order-splash-title" hidden>
+      <form class="session-splash-panel work-order-form" id="work-order-form">
+        <p class="eyebrow">Work order setup</p>
+        <h1 id="work-order-splash-title">New Work Order</h1>
+        <p>Enter the processing details for this session.</p>
+        <label for="processing-location">Processing location</label>
+        <input id="processing-location" name="processingLocation" type="text" placeholder="e.g. Grim HEX Refinery" required />
+        <label for="work-order-type">Refining process</label>
+        <select id="work-order-type" name="type" required>
+          <option value="Ferron Exchange">Ferron Exchange</option>
+          <option value="Dinyx Solventation">Dinyx Solventation</option>
+          <option value="Gaskin Process">Gaskin Process</option>
+          <option value="Klein Process">Klein Process</option>
+          <option value="Cormack Process">Cormack Process</option>
+          <option value="Thorne Process">Thorne Process</option>
+        </select>
+        <label for="work-order-duration">Duration (minutes)</label>
+        <input id="work-order-duration" name="duration" type="number" min="1" step="1" placeholder="45" required />
+        <label for="work-order-cost">Cost (aUEC)</label>
+        <input id="work-order-cost" name="cost" type="number" min="0" step="1" placeholder="1200" required />
+        <div class="work-order-form-actions">
+          <button id="cancel-work-order-btn" class="hud-settings-trigger" type="button">Cancel</button>
+          <button class="hud-settings-trigger primary-action" type="submit">Start Work Order</button>
+        </div>
+      </form>
+    </div>
+
     <main class="salvage-session-shell">
       <header class="salvage-session-header">
         <div>
@@ -75,7 +102,6 @@
           <div class="panel-heading"><h2>Work Orders</h2><span class="panel-code">ACTIVE</span></div>
           <div class="detail-row"><span>Primary</span><strong>Derelict hull recovery</strong></div>
           <div class="detail-row"><span>Location</span><strong>Yela asteroid belt</strong></div>
-          <div class="detail-row"><span>Priority</span><strong class="warning-text">Standard</strong></div>
           <div class="detail-row"><span>Duration</span><strong>45 min</strong></div>
         </article>
       </section>
@@ -111,13 +137,11 @@
       <section class="salvage-panel work-order-panel" aria-label="Salvage work order">
         <div class="panel-heading">
           <div><p class="eyebrow">Work order</p><h2>Strip and recover derelict hull</h2></div>
-          <button id="begin-salvage-btn" class="hud-settings-trigger primary-action" type="button">Begin Salvage</button>
+          <button id="begin-salvage-btn" class="hud-settings-trigger primary-action" type="button">Start Work Order</button>
         </div>
-        <div class="order-details">
+        <div class="order-details" id="work-order-summary">
           <div><span>Client</span><strong>Independent Contract</strong></div>
           <div><span>Location</span><strong>Yela asteroid belt</strong></div>
-          <div><span>Priority</span><strong class="warning-text">Standard</strong></div>
-          <div><span>Expected duration</span><strong>45 min</strong></div>
         </div>
       </section>
 

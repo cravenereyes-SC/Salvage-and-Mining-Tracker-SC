@@ -51,6 +51,31 @@
   width: 100%;
 }
 
+.work-order-form input,
+.work-order-form select {
+  width: 100%;
+  margin-bottom: 0.9rem;
+  padding: 0.7rem;
+  color: var(--text);
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font: inherit;
+}
+
+.work-order-form input:focus,
+.work-order-form select:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.work-order-form-actions {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 0.75rem;
+  margin-top: 0.35rem;
+}
+
 .session-splash[hidden] {
   display: none;
 }
@@ -71,6 +96,30 @@
 .order-details {
   display: flex;
   align-items: center;
+}
+
+.work-order-entry {
+  display: grid;
+  gap: 0.25rem;
+  flex: 1 1 100%;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.work-order-entry strong {
+  color: var(--accent);
+  font-size: 0.85rem;
+}
+
+.work-order-entry span {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.work-order-entry .work-order-countdown {
+  color: var(--accent);
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.72rem;
 }
 
 .salvage-session-header {

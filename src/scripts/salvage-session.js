@@ -9,6 +9,10 @@ import {
 
 const historyBtnEl = document.querySelector("#session-history-btn");
 const beginSalvageBtnEl = document.querySelector("#begin-salvage-btn");
+const workOrderSplashEl = document.querySelector("#work-order-splash");
+const workOrderFormEl = document.querySelector("#work-order-form");
+const cancelWorkOrderBtnEl = document.querySelector("#cancel-work-order-btn");
+const workOrderSummaryEl = document.querySelector("#work-order-summary");
 const sessionSplashEl = document.querySelector("#session-splash");
 const launchSessionBtnEl = document.querySelector("#launch-session-btn");
 const activitySelectEl = document.querySelector("#activity-select");
@@ -35,6 +39,28 @@ function formatElapsedTime(seconds) {
 
 function generateSessionId() {
   return Math.floor(1000 + Math.random() * 9000).toString();
+}
+
+function formatCountdown(totalSeconds) {
+  const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, "0");
+  const seconds = (totalSeconds % 60).toString().padStart(2, "0");
+  return `${minutes}:${seconds}`;
+}
+
+function startWorkOrderCountdown(durationMinutes, countdownEl) {
+  let remainingSeconds = Math.max(0, Math.round(Number(durationMinutes) * 60));
+  countdownEl.textContent = `Time remaining: ${formatCountdown(remainingSeconds)}`;
+
+  const countdownInterval = setInterval(() => {
+    remainingSeconds -= 1;
+    countdownEl.textContent = remainingSeconds > 0
+      ? `Time remaining: ${formatCountdown(remainingSeconds)}`
+      : "Time remaining: 00:00 - Complete";
+
+    if (remainingSeconds <= 0) {
+      clearInterval(countdownInterval);
+    }
+  }, 1000);
 }
 
 setInterval(() => {
@@ -66,7 +92,41 @@ if (launchSessionBtnEl && sessionSplashEl) {
 
 if (beginSalvageBtnEl) {
   beginSalvageBtnEl.addEventListener("click", () => {
-    beginSalvageBtnEl.textContent = "Salvage In Progress";
-    beginSalvageBtnEl.disabled = true;
+    if (workOrderSplashEl) {
+      workOrderSplashEl.hidden = false;
+    }
+  });
+}
+
+if (cancelWorkOrderBtnEl && workOrderSplashEl) {
+  cancelWorkOrderBtnEl.addEventListener("click", () => {
+    workOrderSplashEl.hidden = true;
+  });
+}
+
+if (workOrderFormEl && workOrderSplashEl && workOrderSummaryEl) {
+  workOrderFormEl.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(workOrderFormEl);
+    const order = {
+      location: String(formData.get("processingLocation") || ""),
+      type: String(formData.get("type") || ""),
+      duration: String(formData.get("duration") || ""),
+      cost: String(formData.get("cost") || "")
+    };
+    const orderEntry = document.createElement("div");
+    const orderTitle = document.createElement("strong");
+    const orderDetails = document.createElement("span");
+    const countdown = document.createElement("span");
+    orderEntry.className = "work-order-entry";
+    orderTitle.textContent = order.type;
+    orderDetails.textContent = `${order.location} | ${order.duration} min | ${Number(order.cost).toLocaleString("en-US")} aUEC`;
+    countdown.className = "work-order-countdown";
+    orderEntry.append(orderTitle, orderDetails, countdown);
+    workOrderSummaryEl.append(orderEntry);
+    startWorkOrderCountdown(order.duration, countdown);
+    workOrderFormEl.reset();
+    workOrderSplashEl.hidden = true;
   });
 }
