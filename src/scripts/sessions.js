@@ -13,6 +13,7 @@ import {
 } from "./modules/themes.js";
 
 const backBtnEl = document.querySelector("#back-btn");
+const startNewSessionBtnEl = document.querySelector("#start-new-session-btn");
 const totalsStripEl = document.querySelector("#totals-strip");
 const sessionsListEl = document.querySelector("#sessions-list");
 const emptyStateEl = document.querySelector("#empty-state");
@@ -281,6 +282,18 @@ renderSessionsList();
 if (backBtnEl) {
   backBtnEl.addEventListener("click", () => {
     if (window.opener && !window.opener.closed) {
+      window.close();
+      return;
+    }
+
+    window.location.href = "index.html";
+  });
+}
+
+if (startNewSessionBtnEl) {
+  startNewSessionBtnEl.addEventListener("click", () => {
+    if (window.opener && !window.opener.closed) {
+      window.opener.focus();
       window.close();
       return;
     }
