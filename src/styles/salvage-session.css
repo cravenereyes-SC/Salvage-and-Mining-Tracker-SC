@@ -231,6 +231,41 @@
   align-items: center;
 }
 
+.work-order-summary-bar {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  background: color-mix(in srgb, var(--bg-deep) 65%, transparent);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.summary-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.summary-metric-label {
+  color: var(--muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.summary-metric-value {
+  color: var(--text);
+  font-family: "Orbitron", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.summary-metric.highlight .summary-metric-value {
+  color: var(--accent);
+}
+
 .work-orders-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -428,7 +463,7 @@
 }
 
 .session-sections {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   margin-bottom: 1rem;
 }
 

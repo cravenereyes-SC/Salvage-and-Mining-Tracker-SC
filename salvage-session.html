@@ -103,6 +103,7 @@
           <option value="fuel" selected>Fuel</option>
           <option value="contract">Contract</option>
           <option value="repair">Repair</option>
+          <option value="refining">Refining</option>
         </select>
 
         <label for="expense-amount">Amount (aUEC)</label>
@@ -134,14 +135,8 @@
           <div class="detail-row"><span>Contract cost</span><strong id="expense-contract-display">0 aUEC</strong></div>
           <div class="detail-row"><span>Fuel cost</span><strong id="expense-fuel-display">0 aUEC</strong></div>
           <div class="detail-row"><span>Repair cost</span><strong id="expense-repair-display">0 aUEC</strong></div>
+          <div class="detail-row"><span>Refining cost</span><strong id="expense-refining-display">0 aUEC</strong></div>
           <div class="detail-row total-row"><span>Estimated total</span><strong id="expense-total-display">0 aUEC</strong></div>
-        </article>
-
-        <article class="salvage-panel session-detail-panel">
-          <div class="panel-heading"><h2>Work Orders</h2><span class="panel-code">SUMMARY</span></div>
-          <div class="detail-row"><span>Running</span><strong id="summary-running-count">0</strong></div>
-          <div class="detail-row"><span>Completed</span><strong id="summary-completed-count">0</strong></div>
-          <div class="detail-row total-row"><span>Refining Cost</span><strong id="summary-total-cost">0 aUEC</strong></div>
         </article>
       </section>
 
@@ -150,6 +145,18 @@
           <h2>Work Orders</h2>
           <button id="begin-salvage-btn" class="hud-settings-trigger primary-action" type="button">Start Work Order</button>
         </div>
+
+        <div class="work-order-summary-bar">
+          <div class="summary-metric">
+            <span class="summary-metric-label">Running Orders</span>
+            <strong class="summary-metric-value" id="summary-running-count">0</strong>
+          </div>
+          <div class="summary-metric">
+            <span class="summary-metric-label">Completed Orders</span>
+            <strong class="summary-metric-value" id="summary-completed-count">0</strong>
+          </div>
+        </div>
+
         <div class="work-orders-grid">
           <div class="work-orders-column">
             <div class="work-orders-column-head">

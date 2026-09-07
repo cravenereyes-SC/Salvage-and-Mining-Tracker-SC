@@ -38,12 +38,14 @@ const expenseAmountInputEl = document.querySelector("#expense-amount");
 const expenseContractDisplayEl = document.querySelector("#expense-contract-display");
 const expenseFuelDisplayEl = document.querySelector("#expense-fuel-display");
 const expenseRepairDisplayEl = document.querySelector("#expense-repair-display");
+const expenseRefiningDisplayEl = document.querySelector("#expense-refining-display");
 const expenseTotalDisplayEl = document.querySelector("#expense-total-display");
 
 let sessionExpenses = {
   contractCost: 0,
   fuelCost: 0,
-  repairCost: 0
+  repairCost: 0,
+  refiningCost: 0
 };
 
 let elapsedSeconds = 0;
@@ -245,7 +247,7 @@ if (sessionSplashEl) {
 }
 
 function updateExpenseDisplay() {
-  const total = (sessionExpenses.contractCost || 0) + (sessionExpenses.fuelCost || 0) + (sessionExpenses.repairCost || 0);
+  const total = (sessionExpenses.contractCost || 0) + (sessionExpenses.fuelCost || 0) + (sessionExpenses.repairCost || 0) + (sessionExpenses.refiningCost || 0);
   if (expenseContractDisplayEl) {
     expenseContractDisplayEl.textContent = `${(sessionExpenses.contractCost || 0).toLocaleString("en-US")} aUEC`;
   }
@@ -254,6 +256,9 @@ function updateExpenseDisplay() {
   }
   if (expenseRepairDisplayEl) {
     expenseRepairDisplayEl.textContent = `${(sessionExpenses.repairCost || 0).toLocaleString("en-US")} aUEC`;
+  }
+  if (expenseRefiningDisplayEl) {
+    expenseRefiningDisplayEl.textContent = `${(sessionExpenses.refiningCost || 0).toLocaleString("en-US")} aUEC`;
   }
   if (expenseTotalDisplayEl) {
     expenseTotalDisplayEl.textContent = `${total.toLocaleString("en-US")} aUEC`;
@@ -296,6 +301,8 @@ if (expenseFormEl && expenseSplashEl) {
       sessionExpenses.fuelCost = (sessionExpenses.fuelCost || 0) + amount;
     } else if (expenseType === "repair") {
       sessionExpenses.repairCost = (sessionExpenses.repairCost || 0) + amount;
+    } else if (expenseType === "refining") {
+      sessionExpenses.refiningCost = (sessionExpenses.refiningCost || 0) + amount;
     }
 
     updateExpenseDisplay();
@@ -358,6 +365,8 @@ if (workOrderFormEl && workOrderSplashEl) {
     const costNum = Number(formData.get("cost") || 0);
     const yieldAmountNum = Number(formData.get("yieldAmount") || 0);
     totalRefiningCost += costNum;
+    sessionExpenses.refiningCost = (sessionExpenses.refiningCost || 0) + costNum;
+    updateExpenseDisplay();
 
     const order = {
       location: String(formData.get("processingLocation") || ""),
