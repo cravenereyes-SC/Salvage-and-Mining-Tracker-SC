@@ -57,16 +57,12 @@
 .work-order-form input,
 .work-order-form select,
 .expense-form input,
-.expense-form select {
+.expense-form select,
+.crew-form input,
+.crew-form select {
   width: 100%;
   margin-bottom: 0.75rem;
   padding: 0.65rem 0.7rem;
-  color: var(--text);
-  background: var(--bg-deep);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  font: inherit;
-}
   color: var(--text);
   background: var(--bg-deep);
   border: 1px solid var(--border);
@@ -77,7 +73,9 @@
 .work-order-form input:focus,
 .work-order-form select:focus,
 .expense-form input:focus,
-.expense-form select:focus {
+.expense-form select:focus,
+.crew-form input:focus,
+.crew-form select:focus {
   outline: 2px solid var(--accent);
   outline-offset: 1px;
 }
@@ -463,8 +461,87 @@
 }
 
 .session-sections {
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-bottom: 1rem;
+}
+
+.crew-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  max-height: 175px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.crew-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.45rem 0.65rem;
+  background: color-mix(in srgb, var(--bg-deep) 60%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+  border-radius: 6px;
+  gap: 0.5rem;
+}
+
+.crew-info {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.crew-name {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.crew-role-badge {
+  display: inline-block;
+  padding: 0.12rem 0.4rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  white-space: nowrap;
+}
+
+.crew-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.crew-cut {
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.75rem;
+  color: var(--accent);
+}
+
+.crew-remove-btn {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  line-height: 1;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.crew-remove-btn:hover {
+  color: #ff6b6b;
+  background: color-mix(in srgb, #ff6b6b 15%, transparent);
 }
 
 .salvage-grid {

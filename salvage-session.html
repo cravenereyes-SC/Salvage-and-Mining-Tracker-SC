@@ -116,6 +116,37 @@
       </form>
     </div>
 
+    <div class="session-splash" id="crew-splash" role="dialog" aria-modal="true" aria-labelledby="crew-splash-title" hidden>
+      <form class="session-splash-panel crew-form" id="crew-form">
+        <p class="eyebrow">Crew setup</p>
+        <h1 id="crew-splash-title">Add Crew Member</h1>
+        <p>Assign a pilot or operator to this session.</p>
+
+        <label for="crew-name">Callsign / Name</label>
+        <input id="crew-name" name="crewName" type="text" placeholder="e.g. Maverick" required />
+
+        <label for="crew-role">Role</label>
+        <select id="crew-role" name="crewRole" required>
+          <option value="Pilot">Pilot</option>
+          <option value="Co-Pilot">Co-Pilot</option>
+          <option value="Salvage Operator" selected>Salvage Operator</option>
+          <option value="Mining Operator">Mining Operator</option>
+          <option value="Tractor Operator">Tractor Operator</option>
+          <option value="Cargo Handler">Cargo Handler</option>
+          <option value="Gunner">Gunner</option>
+          <option value="Engineer">Engineer</option>
+        </select>
+
+        <label for="crew-cut">Payout Share (%)</label>
+        <input id="crew-cut" name="crewCut" type="number" min="0" max="100" step="1" placeholder="e.g. 25" />
+
+        <div class="work-order-form-actions">
+          <button id="cancel-crew-btn" class="hud-settings-trigger" type="button">Cancel</button>
+          <button class="hud-settings-trigger primary-action" type="submit">Add Member</button>
+        </div>
+      </form>
+    </div>
+
     <main class="salvage-session-shell">
       <header class="salvage-session-header">
         <div>
@@ -137,6 +168,18 @@
           <div class="detail-row"><span>Repair cost</span><strong id="expense-repair-display">0 aUEC</strong></div>
           <div class="detail-row"><span>Refining cost</span><strong id="expense-refining-display">0 aUEC</strong></div>
           <div class="detail-row total-row"><span>Estimated total</span><strong id="expense-total-display">0 aUEC</strong></div>
+        </article>
+
+        <article class="salvage-panel session-detail-panel">
+          <div class="panel-heading">
+            <h2>Crew</h2>
+            <button id="add-crew-btn" class="hud-settings-trigger" type="button" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;">+ Add Crew</button>
+          </div>
+          <div class="crew-list" id="crew-list"></div>
+          <div class="detail-row total-row" style="margin-top: 0.4rem;">
+            <span>Total Crew</span>
+            <strong id="crew-total-count">1 Member</strong>
+          </div>
         </article>
       </section>
 

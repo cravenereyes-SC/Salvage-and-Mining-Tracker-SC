@@ -41,6 +41,33 @@ const expenseRepairDisplayEl = document.querySelector("#expense-repair-display")
 const expenseRefiningDisplayEl = document.querySelector("#expense-refining-display");
 const expenseTotalDisplayEl = document.querySelector("#expense-total-display");
 
+const addCrewBtnEl = document.querySelector("#add-crew-btn");
+const crewSplashEl = document.querySelector("#crew-splash");
+const crewFormEl = document.querySelector("#crew-form");
+const cancelCrewBtnEl = document.querySelector("#cancel-crew-btn");
+const crewListEl = document.querySelector("#crew-list");
+const crewTotalCountEl = document.querySelector("#crew-total-count");
+
+let savedPilotCallsign = "CPT-AURORA";
+try {
+  const savedProfile = JSON.parse(localStorage.getItem("sc-tracker-pilot-profile"));
+  if (savedProfile && savedProfile.callsign) {
+    savedPilotCallsign = savedProfile.callsign;
+  }
+} catch {
+  // fallback default
+}
+
+let crewMembers = [
+  {
+    id: "crew-1",
+    name: savedPilotCallsign,
+    role: "Pilot",
+    cut: 100,
+    isPrimary: true
+  }
+];
+
 let sessionExpenses = {
   contractCost: 0,
   fuelCost: 0,
@@ -311,6 +338,109 @@ if (expenseFormEl && expenseSplashEl) {
   });
 }
 
+function renderCrewList() {
+  if (!crewListEl) return;
+  crewListEl.innerHTML = "";
+
+  crewMembers.forEach((member) => {
+    const item = document.createElement("div");
+    item.className = "crew-item";
+
+    const info = document.createElement("div");
+    info.className = "crew-info";
+
+    const nameEl = document.createElement("span");
+    nameEl.className = "crew-name";
+    nameEl.textContent = member.name;
+
+    const roleBadge = document.createElement("span");
+    roleBadge.className = "crew-role-badge";
+    roleBadge.textContent = member.role;
+
+    info.append(nameEl, roleBadge);
+
+    const meta = document.createElement("div");
+    meta.className = "crew-meta";
+
+    if (member.cut !== undefined && member.cut !== null && member.cut !== "" && !Number.isNaN(member.cut)) {
+      const cutEl = document.createElement("span");
+      cutEl.className = "crew-cut";
+      cutEl.textContent = `${member.cut}%`;
+      meta.append(cutEl);
+    }
+
+    if (!member.isPrimary) {
+      const removeBtn = document.createElement("button");
+      removeBtn.className = "crew-remove-btn";
+      removeBtn.type = "button";
+      removeBtn.innerHTML = "&times;";
+      removeBtn.title = "Remove member";
+      removeBtn.addEventListener("click", () => {
+        crewMembers = crewMembers.filter((c) => c.id !== member.id);
+        renderCrewList();
+      });
+      meta.append(removeBtn);
+    }
+
+    item.append(info, meta);
+    crewListEl.append(item);
+  });
+
+  if (crewTotalCountEl) {
+    crewTotalCountEl.textContent = `${crewMembers.length} Member${crewMembers.length === 1 ? "" : "s"}`;
+  }
+}
+
+renderCrewList();
+
+if (addCrewBtnEl && crewSplashEl) {
+  addCrewBtnEl.addEventListener("click", () => {
+    if (crewFormEl) {
+      crewFormEl.reset();
+    }
+    crewSplashEl.hidden = false;
+  });
+}
+
+if (cancelCrewBtnEl && crewSplashEl) {
+  cancelCrewBtnEl.addEventListener("click", () => {
+    crewSplashEl.hidden = true;
+  });
+}
+
+if (crewSplashEl) {
+  crewSplashEl.addEventListener("click", (event) => {
+    if (event.target === crewSplashEl) {
+      crewSplashEl.hidden = true;
+    }
+  });
+}
+
+if (crewFormEl && crewSplashEl) {
+  crewFormEl.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const formData = new FormData(crewFormEl);
+    const name = String(formData.get("crewName") || "").trim();
+    const role = String(formData.get("crewRole") || "Salvage Operator");
+    const cutRaw = formData.get("crewCut");
+    const cut = cutRaw !== "" && cutRaw !== null ? Number(cutRaw) : null;
+
+    if (!name) return;
+
+    crewMembers.push({
+      id: `crew-${Date.now()}`,
+      name,
+      role,
+      cut,
+      isPrimary: false
+    });
+
+    renderCrewList();
+    crewFormEl.reset();
+    crewSplashEl.hidden = true;
+  });
+}
+
 if (workOrderSplashEl) {
   workOrderSplashEl.addEventListener("click", (event) => {
     if (event.target === workOrderSplashEl) {
@@ -321,7 +451,9 @@ if (workOrderSplashEl) {
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
-    if (expenseSplashEl && !expenseSplashEl.hidden) {
+    if (crewSplashEl && !crewSplashEl.hidden) {
+      crewSplashEl.hidden = true;
+    } else if (expenseSplashEl && !expenseSplashEl.hidden) {
       expenseSplashEl.hidden = true;
     } else if (workOrderSplashEl && !workOrderSplashEl.hidden) {
       workOrderSplashEl.hidden = true;
