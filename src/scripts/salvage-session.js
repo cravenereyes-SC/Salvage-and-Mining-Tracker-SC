@@ -356,6 +356,7 @@ if (workOrderFormEl && workOrderSplashEl) {
     }
 
     const costNum = Number(formData.get("cost") || 0);
+    const yieldAmountNum = Number(formData.get("yieldAmount") || 0);
     totalRefiningCost += costNum;
 
     const order = {
@@ -364,7 +365,8 @@ if (workOrderFormEl && workOrderSplashEl) {
       durationHours,
       durationMinutes,
       durationSeconds,
-      cost: costNum
+      cost: costNum,
+      yieldAmount: yieldAmountNum
     };
     const orderEntry = document.createElement("div");
     const orderLocationHeader = document.createElement("strong");
@@ -380,8 +382,9 @@ if (workOrderFormEl && workOrderSplashEl) {
       order.durationHours ? `${order.durationHours}h` : "",
       order.durationMinutes ? `${order.durationMinutes}m` : ""
     ].filter(Boolean).join(" ");
+    const yieldLabel = order.yieldAmount > 0 ? ` | Yield: ${order.yieldAmount} cSCU` : "";
     orderDetails.className = "work-order-meta";
-    orderDetails.textContent = `${durationLabel} | ${order.cost.toLocaleString("en-US")} aUEC`;
+    orderDetails.textContent = `${durationLabel} | ${order.cost.toLocaleString("en-US")} aUEC${yieldLabel}`;
     countdown.className = "work-order-countdown";
     orderEntry.append(orderLocationHeader, orderMethod, orderDetails, countdown);
 

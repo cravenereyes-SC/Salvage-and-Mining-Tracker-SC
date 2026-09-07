@@ -81,6 +81,10 @@
         </fieldset>
         <label for="work-order-cost">Cost (aUEC)</label>
         <input id="work-order-cost" name="cost" type="number" min="0" step="1" placeholder="1200" required />
+
+        <label for="work-order-yield">Final Yield Amount (cSCU)</label>
+        <input id="work-order-yield" name="yieldAmount" type="number" min="0" step="any" placeholder="e.g. 14" />
+
         <div class="work-order-form-actions">
           <button id="cancel-work-order-btn" class="hud-settings-trigger" type="button">Cancel</button>
           <button class="hud-settings-trigger primary-action" type="submit">Start Work Order</button>
@@ -120,16 +124,6 @@
         </div>
         <button id="session-history-btn" class="hud-settings-trigger" type="button">Session History</button>
       </header>
-
-      <section class="salvage-overview" aria-label="Salvage session overview">
-        <article class="salvage-panel metric-panel">
-          <p class="eyebrow">Session yield</p>
-          <div class="metric-value">0 <small>aUEC</small></div>
-          <div class="metric-subline"><span>Projected</span><strong>42,800 aUEC</strong></div>
-          <div class="progress-track"><span style="width: 0%"></span></div>
-          <p class="metric-caption">No materials collected</p>
-        </article>
-      </section>
 
       <section class="session-sections" aria-label="Session details">
         <article class="salvage-panel session-detail-panel">
