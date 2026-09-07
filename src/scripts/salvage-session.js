@@ -28,6 +28,24 @@ const launchSessionBtnEl = document.querySelector("#launch-session-btn");
 const activitySelectEl = document.querySelector("#activity-select");
 const sessionIdEl = document.querySelector("#session-id");
 const sessionClockEl = document.querySelector("#session-clock");
+
+const addExpenseBtnEl = document.querySelector("#add-expense-btn");
+const expenseSplashEl = document.querySelector("#expense-splash");
+const expenseFormEl = document.querySelector("#expense-form");
+const cancelExpenseBtnEl = document.querySelector("#cancel-expense-btn");
+const expenseTypeSelectEl = document.querySelector("#expense-type");
+const expenseAmountInputEl = document.querySelector("#expense-amount");
+const expenseContractDisplayEl = document.querySelector("#expense-contract-display");
+const expenseFuelDisplayEl = document.querySelector("#expense-fuel-display");
+const expenseRepairDisplayEl = document.querySelector("#expense-repair-display");
+const expenseTotalDisplayEl = document.querySelector("#expense-total-display");
+
+let sessionExpenses = {
+  contractCost: 0,
+  fuelCost: 0,
+  repairCost: 0
+};
+
 let elapsedSeconds = 0;
 let totalRefiningCost = 0;
 
@@ -226,6 +244,66 @@ if (sessionSplashEl) {
   });
 }
 
+function updateExpenseDisplay() {
+  const total = (sessionExpenses.contractCost || 0) + (sessionExpenses.fuelCost || 0) + (sessionExpenses.repairCost || 0);
+  if (expenseContractDisplayEl) {
+    expenseContractDisplayEl.textContent = `${(sessionExpenses.contractCost || 0).toLocaleString("en-US")} aUEC`;
+  }
+  if (expenseFuelDisplayEl) {
+    expenseFuelDisplayEl.textContent = `${(sessionExpenses.fuelCost || 0).toLocaleString("en-US")} aUEC`;
+  }
+  if (expenseRepairDisplayEl) {
+    expenseRepairDisplayEl.textContent = `${(sessionExpenses.repairCost || 0).toLocaleString("en-US")} aUEC`;
+  }
+  if (expenseTotalDisplayEl) {
+    expenseTotalDisplayEl.textContent = `${total.toLocaleString("en-US")} aUEC`;
+  }
+}
+
+if (addExpenseBtnEl && expenseSplashEl) {
+  addExpenseBtnEl.addEventListener("click", () => {
+    if (expenseAmountInputEl) {
+      expenseAmountInputEl.value = "";
+    }
+    expenseSplashEl.hidden = false;
+  });
+}
+
+if (cancelExpenseBtnEl && expenseSplashEl) {
+  cancelExpenseBtnEl.addEventListener("click", () => {
+    expenseSplashEl.hidden = true;
+  });
+}
+
+if (expenseSplashEl) {
+  expenseSplashEl.addEventListener("click", (event) => {
+    if (event.target === expenseSplashEl) {
+      expenseSplashEl.hidden = true;
+    }
+  });
+}
+
+if (expenseFormEl && expenseSplashEl) {
+  expenseFormEl.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const formData = new FormData(expenseFormEl);
+    const expenseType = formData.get("expenseType");
+    const amount = Number(formData.get("amount") || 0);
+
+    if (expenseType === "contract") {
+      sessionExpenses.contractCost = (sessionExpenses.contractCost || 0) + amount;
+    } else if (expenseType === "fuel") {
+      sessionExpenses.fuelCost = (sessionExpenses.fuelCost || 0) + amount;
+    } else if (expenseType === "repair") {
+      sessionExpenses.repairCost = (sessionExpenses.repairCost || 0) + amount;
+    }
+
+    updateExpenseDisplay();
+    expenseFormEl.reset();
+    expenseSplashEl.hidden = true;
+  });
+}
+
 if (workOrderSplashEl) {
   workOrderSplashEl.addEventListener("click", (event) => {
     if (event.target === workOrderSplashEl) {
@@ -236,7 +314,9 @@ if (workOrderSplashEl) {
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
-    if (workOrderSplashEl && !workOrderSplashEl.hidden) {
+    if (expenseSplashEl && !expenseSplashEl.hidden) {
+      expenseSplashEl.hidden = true;
+    } else if (workOrderSplashEl && !workOrderSplashEl.hidden) {
       workOrderSplashEl.hidden = true;
     } else if (sessionSplashEl && !sessionSplashEl.hidden) {
       handleStartSession();

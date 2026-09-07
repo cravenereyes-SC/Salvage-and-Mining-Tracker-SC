@@ -52,7 +52,9 @@
 }
 
 .work-order-form input,
-.work-order-form select {
+.work-order-form select,
+.expense-form input,
+.expense-form select {
   width: 100%;
   margin-bottom: 0.9rem;
   padding: 0.7rem;
@@ -64,7 +66,9 @@
 }
 
 .work-order-form input:focus,
-.work-order-form select:focus {
+.work-order-form select:focus,
+.expense-form input:focus,
+.expense-form select:focus {
   outline: 2px solid var(--accent);
   outline-offset: 1px;
 }
@@ -415,12 +419,12 @@
 }
 
 .session-sections {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-bottom: 1rem;
 }
 
 .salvage-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-bottom: 1rem;
 }
 

@@ -88,6 +88,29 @@
       </form>
     </div>
 
+    <div class="session-splash" id="expense-splash" role="dialog" aria-modal="true" aria-labelledby="expense-splash-title" hidden>
+      <form class="session-splash-panel expense-form" id="expense-form">
+        <p class="eyebrow">Expense setup</p>
+        <h1 id="expense-splash-title">Add Expense</h1>
+        <p>Record operation expenses for this session.</p>
+        
+        <label for="expense-type">Type</label>
+        <select id="expense-type" name="expenseType" required>
+          <option value="fuel" selected>Fuel</option>
+          <option value="contract">Contract</option>
+          <option value="repair">Repair</option>
+        </select>
+
+        <label for="expense-amount">Amount (aUEC)</label>
+        <input id="expense-amount" name="amount" type="number" min="0" step="1" placeholder="e.g. 2500" required />
+
+        <div class="work-order-form-actions">
+          <button id="cancel-expense-btn" class="hud-settings-trigger" type="button">Cancel</button>
+          <button class="hud-settings-trigger primary-action" type="submit">Save Expense</button>
+        </div>
+      </form>
+    </div>
+
     <main class="salvage-session-shell">
       <header class="salvage-session-header">
         <div>
@@ -110,27 +133,14 @@
 
       <section class="session-sections" aria-label="Session details">
         <article class="salvage-panel session-detail-panel">
-          <div class="panel-heading"><h2>Ship Details</h2><span class="panel-code">VESSEL</span></div>
-          <div class="detail-row"><span>Ship</span><strong>Drake Vulture</strong></div>
-          <div class="detail-row"><span>Role</span><strong>Salvage</strong></div>
-          <div class="detail-row"><span>Size</span><strong>Small</strong></div>
-          <div class="detail-row"><span>Power reserve</span><strong>78%</strong></div>
-        </article>
-
-        <article class="salvage-panel session-detail-panel">
-          <div class="panel-heading"><h2>Focus Materials</h2><span class="panel-code">TARGETS</span></div>
-          <div class="detail-row"><span>Primary</span><strong>RMC</strong></div>
-          <div class="detail-row"><span>Secondary</span><strong>CMAT</strong></div>
-          <div class="detail-row"><span>Special find</span><strong>Electronics</strong></div>
-          <div class="detail-row"><span>Hold capacity</span><strong>12 SCU</strong></div>
-        </article>
-
-        <article class="salvage-panel session-detail-panel">
-          <div class="panel-heading"><h2>Expenses</h2><span class="panel-code">BUDGET</span></div>
-          <div class="detail-row"><span>Fuel reserve</span><strong>1,200 aUEC</strong></div>
-          <div class="detail-row"><span>Consumables</span><strong>650 aUEC</strong></div>
-          <div class="detail-row"><span>Repair reserve</span><strong>2,000 aUEC</strong></div>
-          <div class="detail-row total-row"><span>Estimated total</span><strong>3,850 aUEC</strong></div>
+          <div class="panel-heading">
+            <h2>Expenses</h2>
+            <button id="add-expense-btn" class="hud-settings-trigger" type="button" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;">+ Add Expense</button>
+          </div>
+          <div class="detail-row"><span>Contract cost</span><strong id="expense-contract-display">0 aUEC</strong></div>
+          <div class="detail-row"><span>Fuel cost</span><strong id="expense-fuel-display">0 aUEC</strong></div>
+          <div class="detail-row"><span>Repair cost</span><strong id="expense-repair-display">0 aUEC</strong></div>
+          <div class="detail-row total-row"><span>Estimated total</span><strong id="expense-total-display">0 aUEC</strong></div>
         </article>
 
         <article class="salvage-panel session-detail-panel">
@@ -138,34 +148,6 @@
           <div class="detail-row"><span>Running</span><strong id="summary-running-count">0</strong></div>
           <div class="detail-row"><span>Completed</span><strong id="summary-completed-count">0</strong></div>
           <div class="detail-row total-row"><span>Refining Cost</span><strong id="summary-total-cost">0 aUEC</strong></div>
-        </article>
-      </section>
-
-      <section class="salvage-grid" aria-label="Salvage operation data">
-        <article class="salvage-panel data-panel">
-          <div class="panel-heading"><h2>Vessel Readiness</h2><span class="panel-code">VLT-07</span></div>
-          <div class="readiness-row"><span>Drake Vulture</span><strong>Ready</strong></div>
-          <div class="readiness-row"><span>Reclaimer head</span><strong>100%</strong></div>
-          <div class="readiness-row"><span>Tractor beam</span><strong>92%</strong></div>
-          <div class="readiness-row"><span>Power reserve</span><strong>78%</strong></div>
-          <div class="readiness-row"><span>Coolant load</span><strong>34%</strong></div>
-        </article>
-
-        <article class="salvage-panel data-panel cargo-panel">
-          <div class="panel-heading"><h2>Cargo Hold</h2><span class="panel-code">0 / 12 SCU</span></div>
-          <div class="cargo-visual"><span></span></div>
-          <div class="cargo-legend"><span>Free capacity</span><strong>100%</strong></div>
-          <div class="material-tags"><span>RMC</span><span>CMAT</span><span>Construction</span></div>
-        </article>
-
-        <article class="salvage-panel data-panel">
-          <div class="panel-heading"><h2>Target Composition</h2><span class="panel-code">SCAN DATA</span></div>
-          <div class="composition-row"><span>Recycled Material Composite</span><strong>62%</strong></div>
-          <div class="composition-bar"><span style="width: 62%"></span></div>
-          <div class="composition-row"><span>Construction Material</span><strong>24%</strong></div>
-          <div class="composition-bar"><span style="width: 24%"></span></div>
-          <div class="composition-row"><span>Electronic Scrap</span><strong>14%</strong></div>
-          <div class="composition-bar"><span style="width: 14%"></span></div>
         </article>
       </section>
 
