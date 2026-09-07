@@ -118,10 +118,10 @@
         </article>
 
         <article class="salvage-panel session-detail-panel">
-          <div class="panel-heading"><h2>Work Orders</h2><span class="panel-code">ACTIVE</span></div>
-          <div class="detail-row"><span>Primary</span><strong>Derelict hull recovery</strong></div>
-          <div class="detail-row"><span>Location</span><strong>Yela asteroid belt</strong></div>
-          <div class="detail-row"><span>Duration</span><strong>45 min</strong></div>
+          <div class="panel-heading"><h2>Work Orders</h2><span class="panel-code">SUMMARY</span></div>
+          <div class="detail-row"><span>Running</span><strong id="summary-running-count">0</strong></div>
+          <div class="detail-row"><span>Completed</span><strong id="summary-completed-count">0</strong></div>
+          <div class="detail-row total-row"><span>Refining Cost</span><strong id="summary-total-cost">0 aUEC</strong></div>
         </article>
       </section>
 
@@ -153,14 +153,30 @@
         </article>
       </section>
 
-      <section class="salvage-panel work-order-panel" aria-label="Salvage work order">
+      <section class="salvage-panel work-order-panel" aria-label="Salvage work orders">
         <div class="panel-heading">
-          <div><p class="eyebrow">Work order</p><h2>Strip and recover derelict hull</h2></div>
+          <h2>Work Orders</h2>
           <button id="begin-salvage-btn" class="hud-settings-trigger primary-action" type="button">Start Work Order</button>
         </div>
-        <div class="order-details" id="work-order-summary">
-          <div><span>Client</span><strong>Independent Contract</strong></div>
-          <div><span>Location</span><strong>Yela asteroid belt</strong></div>
+        <div class="work-orders-grid">
+          <div class="work-orders-column">
+            <div class="work-orders-column-head">
+              <h3>Currently Running</h3>
+              <span class="count-badge active-count-badge" id="active-orders-count">0</span>
+            </div>
+            <div class="work-orders-list" id="active-work-orders-list">
+              <p class="work-orders-empty" id="active-empty-msg">No active work orders running.</p>
+            </div>
+          </div>
+          <div class="work-orders-column">
+            <div class="work-orders-column-head">
+              <h3>Completed</h3>
+              <span class="count-badge completed-count-badge" id="completed-orders-count">0</span>
+            </div>
+            <div class="work-orders-list" id="completed-work-orders-list">
+              <p class="work-orders-empty" id="completed-empty-msg">No completed work orders yet.</p>
+            </div>
+          </div>
         </div>
       </section>
 

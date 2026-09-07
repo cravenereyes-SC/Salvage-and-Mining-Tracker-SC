@@ -12,7 +12,15 @@ const beginSalvageBtnEl = document.querySelector("#begin-salvage-btn");
 const workOrderSplashEl = document.querySelector("#work-order-splash");
 const workOrderFormEl = document.querySelector("#work-order-form");
 const cancelWorkOrderBtnEl = document.querySelector("#cancel-work-order-btn");
-const workOrderSummaryEl = document.querySelector("#work-order-summary");
+const activeWorkOrdersListEl = document.querySelector("#active-work-orders-list");
+const completedWorkOrdersListEl = document.querySelector("#completed-work-orders-list");
+const activeOrdersCountEl = document.querySelector("#active-orders-count");
+const completedOrdersCountEl = document.querySelector("#completed-orders-count");
+const activeEmptyMsgEl = document.querySelector("#active-empty-msg");
+const completedEmptyMsgEl = document.querySelector("#completed-empty-msg");
+const summaryRunningCountEl = document.querySelector("#summary-running-count");
+const summaryCompletedCountEl = document.querySelector("#summary-completed-count");
+const summaryTotalCostEl = document.querySelector("#summary-total-cost");
 const durationHoursEl = document.querySelector("#work-order-hours");
 const durationMinutesEl = document.querySelector("#work-order-minutes");
 const sessionSplashEl = document.querySelector("#session-splash");
@@ -21,6 +29,7 @@ const activitySelectEl = document.querySelector("#activity-select");
 const sessionIdEl = document.querySelector("#session-id");
 const sessionClockEl = document.querySelector("#session-clock");
 let elapsedSeconds = 0;
+let totalRefiningCost = 0;
 
 const ITEM_HEIGHT = 36;
 
@@ -135,18 +144,47 @@ function formatCountdown(totalSeconds) {
   return `${hours}:${(Number(minutes) % 60).toString().padStart(2, "0")}:${seconds}`;
 }
 
-function startWorkOrderCountdown(durationSeconds, countdownEl) {
+function updateWorkOrderListsState() {
+  const activeCount = activeWorkOrdersListEl ? activeWorkOrdersListEl.querySelectorAll(".work-order-entry").length : 0;
+  const completedCount = completedWorkOrdersListEl ? completedWorkOrdersListEl.querySelectorAll(".work-order-entry").length : 0;
+
+  if (activeOrdersCountEl) activeOrdersCountEl.textContent = String(activeCount);
+  if (completedOrdersCountEl) completedOrdersCountEl.textContent = String(completedCount);
+  if (summaryRunningCountEl) summaryRunningCountEl.textContent = String(activeCount);
+  if (summaryCompletedCountEl) summaryCompletedCountEl.textContent = String(completedCount);
+  if (summaryTotalCostEl) summaryTotalCostEl.textContent = `${totalRefiningCost.toLocaleString("en-US")} aUEC`;
+
+  if (activeEmptyMsgEl) {
+    activeEmptyMsgEl.style.display = activeCount === 0 ? "block" : "none";
+  }
+  if (completedEmptyMsgEl) {
+    completedEmptyMsgEl.style.display = completedCount === 0 ? "block" : "none";
+  }
+}
+
+function completeWorkOrder(orderEntry, countdownEl) {
+  orderEntry.classList.remove("running");
+  orderEntry.classList.add("completed");
+  countdownEl.className = "work-order-status-badge";
+  countdownEl.textContent = "✓ Refining Complete";
+
+  if (completedWorkOrdersListEl) {
+    completedWorkOrdersListEl.prepend(orderEntry);
+  }
+  updateWorkOrderListsState();
+}
+
+function startWorkOrderCountdown(durationSeconds, countdownEl, orderEntry) {
   let remainingSeconds = Math.max(0, Math.round(Number(durationSeconds)));
   countdownEl.textContent = `Time remaining: ${formatCountdown(remainingSeconds)}`;
 
   const countdownInterval = setInterval(() => {
     remainingSeconds -= 1;
-    countdownEl.textContent = remainingSeconds > 0
-      ? `Time remaining: ${formatCountdown(remainingSeconds)}`
-      : "Time remaining: 00:00 - Complete";
-
-    if (remainingSeconds <= 0) {
+    if (remainingSeconds > 0) {
+      countdownEl.textContent = `Time remaining: ${formatCountdown(remainingSeconds)}`;
+    } else {
       clearInterval(countdownInterval);
+      completeWorkOrder(orderEntry, countdownEl);
     }
   }, 1000);
 }
@@ -224,7 +262,7 @@ if (cancelWorkOrderBtnEl && workOrderSplashEl) {
   });
 }
 
-if (workOrderFormEl && workOrderSplashEl && workOrderSummaryEl) {
+if (workOrderFormEl && workOrderSplashEl) {
   workOrderFormEl.addEventListener("submit", (event) => {
     event.preventDefault();
 
@@ -237,32 +275,42 @@ if (workOrderFormEl && workOrderSplashEl && workOrderSummaryEl) {
       return;
     }
 
+    const costNum = Number(formData.get("cost") || 0);
+    totalRefiningCost += costNum;
+
     const order = {
       location: String(formData.get("processingLocation") || ""),
       type: String(formData.get("type") || ""),
       durationHours,
       durationMinutes,
       durationSeconds,
-      cost: String(formData.get("cost") || "")
+      cost: costNum
     };
     const orderEntry = document.createElement("div");
     const orderTitle = document.createElement("strong");
     const orderDetails = document.createElement("span");
     const countdown = document.createElement("span");
-    orderEntry.className = "work-order-entry";
+    orderEntry.className = "work-order-entry running";
     orderTitle.textContent = order.type;
     const durationLabel = [
       order.durationHours ? `${order.durationHours}h` : "",
       order.durationMinutes ? `${order.durationMinutes}m` : ""
     ].filter(Boolean).join(" ");
-    orderDetails.textContent = `${order.location} | ${durationLabel} | ${Number(order.cost).toLocaleString("en-US")} aUEC`;
+    orderDetails.textContent = `${order.location} | ${durationLabel} | ${order.cost.toLocaleString("en-US")} aUEC`;
     countdown.className = "work-order-countdown";
     orderEntry.append(orderTitle, orderDetails, countdown);
-    workOrderSummaryEl.append(orderEntry);
-    startWorkOrderCountdown(order.durationSeconds, countdown);
+
+    if (activeWorkOrdersListEl) {
+      activeWorkOrdersListEl.prepend(orderEntry);
+    }
+    updateWorkOrderListsState();
+    startWorkOrderCountdown(order.durationSeconds, countdown, orderEntry);
+
     workOrderFormEl.reset();
     hoursPicker?.setValue(0, false);
     minutesPicker?.setValue(45, false);
     workOrderSplashEl.hidden = true;
   });
 }
+
+updateWorkOrderListsState();

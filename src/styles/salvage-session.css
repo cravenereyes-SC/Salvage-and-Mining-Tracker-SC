@@ -218,17 +218,104 @@
   align-items: center;
 }
 
+.work-orders-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.work-orders-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.work-orders-column-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+}
+
+.work-orders-column-head h3 {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  height: 1.3rem;
+  padding: 0 0.4rem;
+  font-size: 0.72rem;
+  font-family: "Orbitron", sans-serif;
+  font-weight: 700;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  border: 1px solid var(--border);
+}
+
+.active-count-badge {
+  color: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.completed-count-badge {
+  color: #83e269;
+  border-color: #83e269;
+  box-shadow: 0 0 8px color-mix(in srgb, #83e269 30%, transparent);
+}
+
+.work-orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-height: 4.5rem;
+}
+
+.work-orders-empty {
+  margin: 0.5rem 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
 .work-order-entry {
   display: grid;
-  gap: 0.25rem;
-  flex: 1 1 100%;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--border);
+  gap: 0.35rem;
+  padding: 0.75rem 0.9rem;
+  background: color-mix(in srgb, var(--bg-deep) 60%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transition: all 0.25s ease;
+}
+
+.work-order-entry.running {
+  border-left: 3px solid var(--accent);
+}
+
+.work-order-entry.completed {
+  border-left: 3px solid #83e269;
+  background: color-mix(in srgb, var(--surface-strong) 85%, #83e269 5%);
 }
 
 .work-order-entry strong {
   color: var(--accent);
-  font-size: 0.85rem;
+  font-size: 0.88rem;
+}
+
+.work-order-entry.completed strong {
+  color: #83e269;
 }
 
 .work-order-entry span {
@@ -237,9 +324,27 @@
 }
 
 .work-order-entry .work-order-countdown {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
   color: var(--accent);
   font-family: "Orbitron", sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-top: 0.15rem;
+}
+
+.work-order-entry .work-order-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #83e269;
+  font-family: "Rajdhani", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.15rem;
 }
 
 .salvage-session-header {
