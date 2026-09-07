@@ -164,19 +164,47 @@ if (historyBtnEl) {
   });
 }
 
-if (launchSessionBtnEl && sessionSplashEl) {
-  launchSessionBtnEl.addEventListener("click", () => {
-    const activity = activitySelectEl?.value || "salvage";
-    const sessionId = generateSessionId();
-    sessionSplashEl.hidden = true;
-    document.body.dataset.activity = activity;
-    document.body.dataset.sessionId = sessionId;
+function handleStartSession() {
+  const activity = activitySelectEl?.value || "salvage";
+  const sessionId = generateSessionId();
+  sessionSplashEl.hidden = true;
+  document.body.dataset.activity = activity;
+  document.body.dataset.sessionId = sessionId;
 
-    if (sessionIdEl) {
-      sessionIdEl.textContent = `ID ${sessionId}`;
+  if (sessionIdEl) {
+    sessionIdEl.textContent = `ID ${sessionId}`;
+  }
+}
+
+if (launchSessionBtnEl && sessionSplashEl) {
+  launchSessionBtnEl.addEventListener("click", handleStartSession);
+}
+
+if (sessionSplashEl) {
+  sessionSplashEl.addEventListener("click", (event) => {
+    if (event.target === sessionSplashEl) {
+      handleStartSession();
     }
   });
 }
+
+if (workOrderSplashEl) {
+  workOrderSplashEl.addEventListener("click", (event) => {
+    if (event.target === workOrderSplashEl) {
+      workOrderSplashEl.hidden = true;
+    }
+  });
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    if (workOrderSplashEl && !workOrderSplashEl.hidden) {
+      workOrderSplashEl.hidden = true;
+    } else if (sessionSplashEl && !sessionSplashEl.hidden) {
+      handleStartSession();
+    }
+  }
+});
 
 if (beginSalvageBtnEl) {
   beginSalvageBtnEl.addEventListener("click", () => {
