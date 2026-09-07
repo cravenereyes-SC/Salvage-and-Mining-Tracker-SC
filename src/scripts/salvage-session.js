@@ -287,18 +287,23 @@ if (workOrderFormEl && workOrderSplashEl) {
       cost: costNum
     };
     const orderEntry = document.createElement("div");
-    const orderTitle = document.createElement("strong");
+    const orderLocationHeader = document.createElement("strong");
+    const orderMethod = document.createElement("span");
     const orderDetails = document.createElement("span");
     const countdown = document.createElement("span");
     orderEntry.className = "work-order-entry running";
-    orderTitle.textContent = order.type;
+    orderLocationHeader.className = "work-order-location";
+    orderLocationHeader.textContent = order.location;
+    orderMethod.className = "work-order-method";
+    orderMethod.textContent = order.type;
     const durationLabel = [
       order.durationHours ? `${order.durationHours}h` : "",
       order.durationMinutes ? `${order.durationMinutes}m` : ""
     ].filter(Boolean).join(" ");
-    orderDetails.textContent = `${order.location} | ${durationLabel} | ${order.cost.toLocaleString("en-US")} aUEC`;
+    orderDetails.className = "work-order-meta";
+    orderDetails.textContent = `${durationLabel} | ${order.cost.toLocaleString("en-US")} aUEC`;
     countdown.className = "work-order-countdown";
-    orderEntry.append(orderTitle, orderDetails, countdown);
+    orderEntry.append(orderLocationHeader, orderMethod, orderDetails, countdown);
 
     if (activeWorkOrdersListEl) {
       activeWorkOrdersListEl.prepend(orderEntry);

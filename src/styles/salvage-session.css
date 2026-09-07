@@ -309,16 +309,29 @@
   background: color-mix(in srgb, var(--surface-strong) 85%, #83e269 5%);
 }
 
-.work-order-entry strong {
-  color: var(--accent);
-  font-size: 0.88rem;
+.work-order-entry strong.work-order-location {
+  color: var(--text);
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
-.work-order-entry.completed strong {
+.work-order-entry.completed strong.work-order-location {
+  color: var(--text);
+}
+
+.work-order-entry .work-order-method {
+  color: var(--accent);
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.work-order-entry.completed .work-order-method {
   color: #83e269;
 }
 
-.work-order-entry span {
+.work-order-entry .work-order-meta {
   color: var(--muted);
   font-size: 0.78rem;
 }

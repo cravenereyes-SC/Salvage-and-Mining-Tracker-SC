@@ -32,7 +32,23 @@
         <h1 id="work-order-splash-title">New Work Order</h1>
         <p>Enter the processing details for this session.</p>
         <label for="processing-location">Processing location</label>
-        <input id="processing-location" name="processingLocation" type="text" placeholder="e.g. Grim HEX Refinery" required />
+        <select id="processing-location" name="processingLocation" required>
+          <optgroup label="Stanton System">
+            <option value="ARC-L1 Wide Forest Station" selected>ARC-L1 Wide Forest Station</option>
+            <option value="CRU-L1 Ambitious Dream Station">CRU-L1 Ambitious Dream Station</option>
+            <option value="HUR-L1 Green Glade Station">HUR-L1 Green Glade Station</option>
+            <option value="HUR-L2 Faithful Dream Station">HUR-L2 Faithful Dream Station</option>
+            <option value="MIC-L1 Shallow Frontier Station">MIC-L1 Shallow Frontier Station</option>
+          </optgroup>
+          <optgroup label="Pyro System">
+            <option value="Ruin Station (Pyro VI)">Ruin Station (Pyro VI)</option>
+            <option value="Checkmate Station (Pyro I)">Checkmate Station (Pyro I)</option>
+            <option value="Orbituary (Pyro II)">Orbituary (Pyro II)</option>
+            <option value="PatchCity (Pyro III)">PatchCity (Pyro III)</option>
+            <option value="Starlight Service Station (Pyro IV)">Starlight Service Station (Pyro IV)</option>
+            <option value="Megarig (Pyro V)">Megarig (Pyro V)</option>
+          </optgroup>
+        </select>
         <label for="work-order-type">Refining process</label>
         <select id="work-order-type" name="type" required>
           <option value="Ferron Exchange">Ferron Exchange</option>
