@@ -62,7 +62,7 @@ let crewMembers = [
   {
     id: "crew-1",
     name: savedPilotCallsign,
-    role: "Pilot",
+    role: "Captain",
     cut: 100,
     isPrimary: true
   }
@@ -338,36 +338,112 @@ if (expenseFormEl && expenseSplashEl) {
   });
 }
 
+const CREW_ROLES = [
+  "Captain",
+  "Pilot",
+  "Co-Pilot",
+  "Salvage Operator",
+  "Mining Operator",
+  "Tractor Operator",
+  "Cargo Handler",
+  "Gunner",
+  "Engineer"
+];
+
+function recalculateCaptainCut() {
+  const primary = crewMembers.find((c) => c.isPrimary) || crewMembers[0];
+  if (!primary) return;
+  const otherCuts = crewMembers
+    .filter((c) => c !== primary)
+    .reduce((sum, c) => sum + (Number(c.cut) || 0), 0);
+  primary.cut = Math.max(0, 100 - otherCuts);
+}
+
+function updateCaptainInputDisplay() {
+  const primary = crewMembers.find((c) => c.isPrimary) || crewMembers[0];
+  if (!primary || !crewListEl) return;
+  const captInput = crewListEl.querySelector('.crew-cut-input[data-primary="true"]');
+  if (captInput) {
+    captInput.value = String(primary.cut);
+  }
+}
+
 function renderCrewList() {
   if (!crewListEl) return;
   crewListEl.innerHTML = "";
+
+  recalculateCaptainCut();
 
   crewMembers.forEach((member) => {
     const item = document.createElement("div");
     item.className = "crew-item";
 
-    const info = document.createElement("div");
-    info.className = "crew-info";
-
     const nameEl = document.createElement("span");
     nameEl.className = "crew-name";
     nameEl.textContent = member.name;
 
-    const roleBadge = document.createElement("span");
-    roleBadge.className = "crew-role-badge";
-    roleBadge.textContent = member.role;
+    const roleSelect = document.createElement("select");
+    roleSelect.className = "crew-role-select";
+    roleSelect.setAttribute("aria-label", `${member.name} role`);
+    roleSelect.title = "Change crew role";
 
-    info.append(nameEl, roleBadge);
+    CREW_ROLES.forEach((role) => {
+      const opt = document.createElement("option");
+      opt.value = role;
+      opt.textContent = role;
+      if (member.role === role) {
+        opt.selected = true;
+      }
+      roleSelect.appendChild(opt);
+    });
+
+    roleSelect.addEventListener("change", (e) => {
+      member.role = e.target.value;
+    });
 
     const meta = document.createElement("div");
     meta.className = "crew-meta";
 
-    if (member.cut !== undefined && member.cut !== null && member.cut !== "" && !Number.isNaN(member.cut)) {
-      const cutEl = document.createElement("span");
-      cutEl.className = "crew-cut";
-      cutEl.textContent = `${member.cut}%`;
-      meta.append(cutEl);
+    const cutWrap = document.createElement("div");
+    cutWrap.className = `crew-cut-input-wrap${member.isPrimary ? " auto-calculated" : ""}`;
+
+    const cutInput = document.createElement("input");
+    cutInput.type = "number";
+    cutInput.className = "crew-cut-input";
+    cutInput.min = "0";
+    cutInput.max = "100";
+    cutInput.step = "1";
+    cutInput.value = member.cut !== undefined && member.cut !== null ? String(member.cut) : "0";
+    cutInput.setAttribute("aria-label", `${member.name} payout cut percentage`);
+
+    if (member.isPrimary) {
+      cutInput.readOnly = true;
+      cutInput.dataset.primary = "true";
+      cutInput.title = "Auto-calculated captain share (100% - other crew shares)";
+    } else {
+      cutInput.title = "Edit payout share (%)";
+      cutInput.addEventListener("input", (e) => {
+        const val = Number(e.target.value);
+        member.cut = Number.isNaN(val) ? 0 : Math.max(0, Math.min(100, val));
+        recalculateCaptainCut();
+        updateCaptainInputDisplay();
+      });
+      cutInput.addEventListener("change", (e) => {
+        const val = Number(e.target.value);
+        const clamped = Number.isNaN(val) ? 0 : Math.max(0, Math.min(100, val));
+        member.cut = clamped;
+        cutInput.value = String(clamped);
+        recalculateCaptainCut();
+        updateCaptainInputDisplay();
+      });
     }
+
+    const cutUnit = document.createElement("span");
+    cutUnit.className = "crew-cut-unit";
+    cutUnit.textContent = "%";
+
+    cutWrap.append(cutInput, cutUnit);
+    meta.append(cutWrap);
 
     if (!member.isPrimary) {
       const removeBtn = document.createElement("button");
@@ -377,12 +453,13 @@ function renderCrewList() {
       removeBtn.title = "Remove member";
       removeBtn.addEventListener("click", () => {
         crewMembers = crewMembers.filter((c) => c.id !== member.id);
+        recalculateCaptainCut();
         renderCrewList();
       });
       meta.append(removeBtn);
     }
 
-    item.append(info, meta);
+    item.append(nameEl, roleSelect, meta);
     crewListEl.append(item);
   });
 
@@ -423,7 +500,7 @@ if (crewFormEl && crewSplashEl) {
     const name = String(formData.get("crewName") || "").trim();
     const role = String(formData.get("crewRole") || "Salvage Operator");
     const cutRaw = formData.get("crewCut");
-    const cut = cutRaw !== "" && cutRaw !== null ? Number(cutRaw) : null;
+    const cut = cutRaw !== "" && cutRaw !== null && !Number.isNaN(Number(cutRaw)) ? Number(cutRaw) : 0;
 
     if (!name) return;
 

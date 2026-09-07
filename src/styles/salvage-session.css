@@ -475,21 +475,14 @@
 }
 
 .crew-item {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
   align-items: center;
-  justify-content: space-between;
+  gap: 0.65rem;
   padding: 0.45rem 0.65rem;
   background: color-mix(in srgb, var(--bg-deep) 60%, transparent);
   border: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
   border-radius: 6px;
-  gap: 0.5rem;
-}
-
-.crew-info {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  min-width: 0;
 }
 
 .crew-name {
@@ -499,32 +492,104 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-width: 0;
 }
 
-.crew-role-badge {
-  display: inline-block;
-  padding: 0.12rem 0.4rem;
+.crew-role-select {
+  justify-self: center;
+  padding: 0.15rem 0.55rem;
   border-radius: 999px;
   font-size: 0.65rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   background: var(--accent-soft);
   color: var(--accent);
-  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-  white-space: nowrap;
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  cursor: pointer;
+  outline: none;
+  font-family: inherit;
+  font-weight: 600;
+  transition: all 0.15s ease;
+  margin: 0 !important;
+}
+
+.crew-role-select:hover {
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+  border-color: var(--accent);
+}
+
+.crew-role-select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.crew-role-select option {
+  background: var(--bg-deep);
+  color: var(--text);
+  font-size: 0.8rem;
+  text-transform: none;
 }
 
 .crew-meta {
+  justify-self: end;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
   flex-shrink: 0;
 }
 
-.crew-cut {
-  font-family: "Orbitron", sans-serif;
-  font-size: 0.75rem;
+.crew-cut-input-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.crew-cut-input-wrap.auto-calculated {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+}
+
+.crew-cut-input-wrap.auto-calculated .crew-cut-input {
   color: var(--accent);
+  cursor: default;
+}
+
+.crew-cut-input-wrap:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.crew-cut-input {
+  width: 2.5rem;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--accent);
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-align: right;
+  padding: 0;
+  margin: 0 !important;
+  -moz-appearance: textfield;
+}
+
+.crew-cut-input::-webkit-outer-spin-button,
+.crew-cut-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.crew-cut-unit {
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.72rem;
+  color: var(--muted);
+  user-select: none;
 }
 
 .crew-remove-btn {
